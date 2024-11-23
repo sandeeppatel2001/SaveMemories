@@ -1,65 +1,119 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./left.css";
 import VideoControls from "./VideoControls";
 import Comments from "./Comments";
+import Hls from "hls.js";
 
 const VideoPlayer = ({ videoId }) => {
-  const [quality, setQuality] = useState("144p");
-  const qualities = ["144p", "360p", "720p", "1080p"];
+  const videoRef = useRef(null);
+  const hlsRef = useRef(null);
+  const [quality, setQuality] = useState("360p"); // Default quality
+  const qualities = ["360p", "480p", "720p", "1080p"]; // Match server qualities
+
+  useEffect(() => {
+    const initializeHLS = () => {
+      const video = videoRef.current;
+      if (!video) return;
+
+      // Cleanup previous HLS instance
+      if (hlsRef.current) {
+        hlsRef.current.destroy();
+      }
+
+      const videoSrc = `http://localhost:3001/hls/${videoId}/${quality}/playlist.m3u8`;
+
+      if (Hls.isSupported()) {
+        const hls = new Hls({
+          debug: false,
+          enableWorker: true,
+          lowLatencyMode: true,
+          backBufferLength: 90,
+        });
+
+        hls.loadSource(videoSrc);
+        hls.attachMedia(video);
+
+        hls.on(Hls.Events.MANIFEST_PARSED, () => {
+          video.play().catch((error) => {
+            console.log("Playback failed:", error);
+          });
+        });
+
+        hls.on(Hls.Events.ERROR, (event, data) => {
+          if (data.fatal) {
+            switch (data.type) {
+              case Hls.ErrorTypes.NETWORK_ERROR:
+                console.log("Network error, trying to recover...");
+                hls.startLoad();
+                break;
+              case Hls.ErrorTypes.MEDIA_ERROR:
+                console.log("Media error, trying to recover...");
+                hls.recoverMediaError();
+                break;
+              default:
+                console.error("Fatal error, destroying HLS instance");
+                hls.destroy();
+                break;
+            }
+          }
+        });
+
+        hlsRef.current = hls;
+      } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+        // For Safari
+        video.src = videoSrc;
+        video.addEventListener("loadedmetadata", () => {
+          video.play().catch((error) => {
+            console.log("Playback failed:", error);
+          });
+        });
+      }
+    };
+
+    initializeHLS();
+
+    // Cleanup function
+    return () => {
+      if (hlsRef.current) {
+        hlsRef.current.destroy();
+      }
+    };
+  }, [videoId, quality]);
+
+  const handleQualityChange = (newQuality) => {
+    const video = videoRef.current;
+    const currentTime = video?.currentTime || 0;
+    setQuality(newQuality);
+
+    // Current time will be restored when HLS is reinitialized in useEffect
+    if (video) {
+      video.currentTime = currentTime;
+    }
+  };
 
   const handleContextMenu = (e) => {
     e.preventDefault();
     return false;
   };
 
-  const handleKeyDown = (e) => {
-    // Prevent common keyboard shortcuts
-    if (
-      (e.ctrlKey && (e.keyCode === 83 || e.keyCode === 85)) || // Ctrl + S or Ctrl + U
-      e.keyCode === 123 // F12
-    ) {
-      e.preventDefault();
-      return false;
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener("keydown", handleKeyDown);
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, []);
-
   return (
     <div className="video-player">
       <div className="video-container">
         <video
+          ref={videoRef}
           className="video"
           controls
           controlsList="nodownload noplaybackrate"
           disablePictureInPicture
           onContextMenu={handleContextMenu}
           playsInline
-          src={`http://localhost:3001/stream/${videoId}/${quality}`}
         />
+
         <div className="video-controls-overlay">
           <div className="quality-selector">
             <select
               value={quality}
-              onChange={(e) => {
-                setQuality(e.target.value);
-                const video = document.querySelector("video");
-                const currentTime = video.currentTime;
-                video.src = `http://localhost:3001/stream/${videoId}/${e.target.value}`;
-                video.currentTime = currentTime;
-
-                const playPromise = video.play();
-                if (playPromise !== null) {
-                  playPromise.catch(() => {
-                    video.play();
-                  });
-                }
-              }}
+              onChange={(e) => handleQualityChange(e.target.value)}
             >
               {qualities.map((q) => (
                 <option key={q} value={q}>
@@ -71,9 +125,8 @@ const VideoPlayer = ({ videoId }) => {
         </div>
       </div>
 
-      {/* <div className="video-info">
+      <div className="video-info">
         <h1 className="video-title">Video Title</h1>
-
         <div className="channel-info">
           <img
             src="https://via.placeholder.com/40"
@@ -93,9 +146,9 @@ const VideoPlayer = ({ videoId }) => {
           Video description goes here. This can include details about the video,
           upload date, and other relevant information.
         </p>
-      </div> */}
+      </div>
 
-      {/* <Comments /> */}
+      <Comments />
     </div>
   );
 };
