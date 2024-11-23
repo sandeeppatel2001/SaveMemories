@@ -1,0 +1,697 @@
+{"level":"info","message":"Master 13264 is running"}
+{"level":"info","message":"Worker 17948 started on port 3001"}
+{"level":"info","message":"Worker 22220 started on port 3001"}
+{"level":"info","message":"Worker 23536 started on port 3001"}
+{"level":"info","message":"Worker 3936 started on port 3001"}
+{"level":"info","message":"Worker 24676 started on port 3001"}
+{"level":"info","message":"Worker 19436 started on port 3001"}
+{"level":"info","message":"Worker 19944 started on port 3001"}
+{"level":"info","message":"Worker 10252 started on port 3001"}
+{"level":"info","message":"Worker 17024 started on port 3001"}
+{"level":"info","message":"Worker 3536 started on port 3001"}
+{"level":"info","message":"Worker 5452 started on port 3001"}
+{"level":"info","message":"Worker 4392 started on port 3001"}
+{"level":"info","message":"Master 20012 is running"}
+{"level":"info","message":"Worker 3828 started on port 3001"}
+{"level":"info","message":"Worker 25000 started on port 3001"}
+{"level":"info","message":"Worker 25840 started on port 3001"}
+{"level":"info","message":"Worker 5304 started on port 3001"}
+{"level":"info","message":"Master 25164 is running"}
+{"level":"info","message":"Worker 12124 started on port 3001"}
+{"level":"info","message":"Worker 9832 started on port 3001"}
+{"level":"info","message":"Worker 16936 started on port 3001"}
+{"level":"info","message":"Worker 5452 started on port 3001"}
+{"level":"info","message":"Worker 18708 started on port 3001"}
+{"level":"info","message":"Worker 10528 started on port 3001"}
+{"level":"info","message":"Worker 15376 started on port 3001"}
+{"level":"info","message":"Worker 12440 started on port 3001"}
+{"level":"info","message":"Worker 18908 started on port 3001"}
+{"level":"info","message":"Worker 18840 started on port 3001"}
+{"level":"info","message":"Worker 24248 started on port 3001"}
+{"level":"info","message":"Worker 6716 started on port 3001"}
+{"level":"info","message":"Master 10428 is running"}
+{"level":"info","message":"Master 7048 is running"}
+{"level":"info","message":"Master 24028 is running"}
+{"level":"info","message":"Worker 23044 started on port 3001"}
+{"level":"info","message":"Worker 1744 started on port 3001"}
+{"level":"info","message":"Worker 5432 started on port 3001"}
+{"level":"info","message":"Worker 532 started on port 3001"}
+{"level":"info","message":"Worker 6084 started on port 3001"}
+{"level":"info","message":"Worker 2508 started on port 3001"}
+{"level":"info","message":"Worker 5896 started on port 3001"}
+{"level":"info","message":"Worker 5504 started on port 3001"}
+{"level":"info","message":"Worker 320 started on port 3001"}
+{"level":"info","message":"Worker 17500 started on port 3001"}
+{"level":"info","message":"Worker 18480 started on port 3001"}
+{"level":"info","message":"Worker 15612 started on port 3001"}
+{"level":"info","message":"Master 25780 is running"}
+{"level":"info","message":"Worker 9468 started on port 3001"}
+{"level":"info","message":"Worker 8336 started on port 3001"}
+{"level":"info","message":"Worker 20740 started on port 3001"}
+{"level":"info","message":"Worker 22892 started on port 3001"}
+{"level":"info","message":"Worker 5628 started on port 3001"}
+{"level":"info","message":"Worker 23296 started on port 3001"}
+{"level":"info","message":"Worker 5304 started on port 3001"}
+{"level":"info","message":"Worker 25284 started on port 3001"}
+{"level":"info","message":"Worker 16672 started on port 3001"}
+{"level":"info","message":"Worker 13444 started on port 3001"}
+{"level":"info","message":"Worker 23692 started on port 3001"}
+{"level":"info","message":"Worker 24532 started on port 3001"}
+{"level":"info","message":"Master 27396 is running"}
+{"level":"info","message":"Worker 11664 started on port 3001"}
+{"level":"info","message":"Worker 23164 started on port 3001"}
+{"level":"info","message":"Worker 23580 started on port 3001"}
+{"level":"info","message":"Worker 2280 started on port 3001"}
+{"level":"info","message":"Worker 29384 started on port 3001"}
+{"level":"info","message":"Worker 16444 started on port 3001"}
+{"level":"info","message":"Worker 16764 started on port 3001"}
+{"level":"info","message":"Worker 12856 started on port 3001"}
+{"level":"info","message":"Worker 14532 started on port 3001"}
+{"level":"info","message":"Worker 24376 started on port 3001"}
+{"level":"info","message":"Worker 22564 started on port 3001"}
+{"level":"info","message":"Worker 8912 started on port 3001"}
+{"level":"info","message":"Master 19224 is running"}
+{"level":"info","message":"Master 28148 is running"}
+{"level":"info","message":"Worker 14432 started on port 3001"}
+{"level":"info","message":"Worker 17636 started on port 3001"}
+{"level":"info","message":"Worker 9896 started on port 3001"}
+{"level":"info","message":"Worker 28376 started on port 3001"}
+{"level":"info","message":"Worker 19284 started on port 3001"}
+{"level":"info","message":"Worker 17876 started on port 3001"}
+{"level":"info","message":"Worker 13980 started on port 3001"}
+{"level":"info","message":"Worker 30692 started on port 3001"}
+{"level":"info","message":"Worker 6900 started on port 3001"}
+{"level":"info","message":"Worker 29480 started on port 3001"}
+{"level":"info","message":"Worker 19956 started on port 3001"}
+{"level":"info","message":"Worker 22740 started on port 3001"}
+{"level":"info","message":"Worker 14432 died"}
+{"level":"info","message":"Worker 13980 died"}
+{"level":"info","message":"Worker 28376 died"}
+{"level":"info","message":"Worker 30692 died"}
+{"level":"info","message":"Worker 17876 died"}
+{"level":"info","message":"Worker 19284 died"}
+{"level":"info","message":"Worker 19956 died"}
+{"level":"info","message":"Worker 22740 died"}
+{"level":"info","message":"Worker 17636 died"}
+{"level":"info","message":"Worker 29480 died"}
+{"level":"info","message":"Worker 9896 died"}
+{"level":"info","message":"Worker 6900 died"}
+{"level":"info","message":"Master 17472 is running"}
+{"level":"info","message":"Master 28376 is running"}
+{"level":"info","message":"Worker 17320 started on port 3001"}
+{"level":"info","message":"Worker 20132 started on port 3001"}
+{"level":"info","message":"Worker 2104 started on port 3001"}
+{"level":"info","message":"Worker 29356 started on port 3001"}
+{"level":"info","message":"Worker 28708 started on port 3001"}
+{"level":"info","message":"Worker 22564 started on port 3001"}
+{"level":"info","message":"Worker 23500 started on port 3001"}
+{"level":"info","message":"Worker 19884 started on port 3001"}
+{"level":"info","message":"Worker 4000 started on port 3001"}
+{"level":"info","message":"Worker 21380 started on port 3001"}
+{"level":"info","message":"Worker 24220 started on port 3001"}
+{"level":"info","message":"Worker 11660 started on port 3001"}
+{"level":"info","message":"Worker 17320 died"}
+{"level":"info","message":"Worker 2104 died"}
+{"level":"info","message":"Worker 20132 died"}
+{"level":"info","message":"Worker 22564 died"}
+{"level":"info","message":"Worker 23500 died"}
+{"level":"info","message":"Worker 28708 died"}
+{"level":"info","message":"Worker 29356 died"}
+{"level":"info","message":"Worker 19884 died"}
+{"level":"info","message":"Worker 4000 died"}
+{"level":"info","message":"Worker 24220 died"}
+{"level":"info","message":"Worker 21380 died"}
+{"level":"info","message":"Worker 11660 died"}
+{"level":"info","message":"Worker 27428 started on port 3001"}
+{"level":"info","message":"Worker 2456 started on port 3001"}
+{"level":"info","message":"Worker 18896 started on port 3001"}
+{"level":"info","message":"Worker 28652 started on port 3001"}
+{"level":"info","message":"Worker 4888 started on port 3001"}
+{"level":"info","message":"Worker 15640 started on port 3001"}
+{"level":"info","message":"Worker 27744 started on port 3001"}
+{"level":"info","message":"Worker 4352 started on port 3001"}
+{"level":"info","message":"Worker 12728 started on port 3001"}
+{"level":"info","message":"Worker 18276 started on port 3001"}
+{"level":"info","message":"Worker 6744 started on port 3001"}
+{"level":"info","message":"Worker 15332 started on port 3001"}
+{"level":"info","message":"Master 24380 is running"}
+{"level":"info","message":"Worker 14752 started on port 3001"}
+{"level":"info","message":"Worker 21432 started on port 3001"}
+{"level":"info","message":"Worker 22988 started on port 3001"}
+{"level":"info","message":"Worker 30084 started on port 3001"}
+{"level":"info","message":"Worker 1264 started on port 3001"}
+{"level":"info","message":"Worker 28848 started on port 3001"}
+{"level":"info","message":"Worker 2944 started on port 3001"}
+{"level":"info","message":"Worker 5536 started on port 3001"}
+{"level":"info","message":"Worker 29840 started on port 3001"}
+{"level":"info","message":"Worker 23840 started on port 3001"}
+{"level":"info","message":"Worker 19908 started on port 3001"}
+{"level":"info","message":"Worker 29380 started on port 3001"}
+{"level":"info","message":"Worker 21432 died"}
+{"level":"info","message":"Worker 14752 died"}
+{"level":"info","message":"Worker 22988 died"}
+{"level":"info","message":"Worker 30084 died"}
+{"level":"info","message":"Worker 28848 died"}
+{"level":"info","message":"Worker 1264 died"}
+{"level":"info","message":"Worker 2944 died"}
+{"level":"info","message":"Worker 23840 died"}
+{"level":"info","message":"Worker 5536 died"}
+{"level":"info","message":"Worker 29380 died"}
+{"level":"info","message":"Worker 29840 died"}
+{"level":"info","message":"Worker 19908 died"}
+{"level":"info","message":"Worker 9696 started on port 3001"}
+{"level":"info","message":"Worker 14692 started on port 3001"}
+{"level":"info","message":"Worker 26840 started on port 3001"}
+{"level":"info","message":"Worker 2512 started on port 3001"}
+{"level":"info","message":"Worker 24984 started on port 3001"}
+{"level":"info","message":"Worker 11172 started on port 3001"}
+{"level":"info","message":"Worker 19772 started on port 3001"}
+{"level":"info","message":"Worker 20808 started on port 3001"}
+{"level":"info","message":"Worker 16768 started on port 3001"}
+{"level":"info","message":"Worker 8120 started on port 3001"}
+{"level":"info","message":"Worker 9756 started on port 3001"}
+{"level":"info","message":"Worker 14596 started on port 3001"}
+{"level":"info","message":"Worker 9696 died"}
+{"level":"info","message":"Worker 14692 died"}
+{"level":"info","message":"Worker 26840 died"}
+{"level":"info","message":"Worker 2512 died"}
+{"level":"info","message":"Worker 11172 died"}
+{"level":"info","message":"Worker 19772 died"}
+{"level":"info","message":"Worker 20808 died"}
+{"level":"info","message":"Worker 24984 died"}
+{"level":"info","message":"Worker 16768 died"}
+{"level":"info","message":"Worker 8120 died"}
+{"level":"info","message":"Worker 9756 died"}
+{"level":"info","message":"Worker 14596 died"}
+{"level":"info","message":"Worker 28248 started on port 3001"}
+{"level":"info","message":"Worker 18656 started on port 3001"}
+{"level":"info","message":"Worker 8112 started on port 3001"}
+{"level":"info","message":"Worker 14028 started on port 3001"}
+{"level":"info","message":"Worker 12456 started on port 3001"}
+{"level":"info","message":"Worker 5872 started on port 3001"}
+{"level":"info","message":"Worker 25676 started on port 3001"}
+{"level":"info","message":"Worker 20932 started on port 3001"}
+{"level":"info","message":"Worker 30656 started on port 3001"}
+{"level":"info","message":"Worker 2424 started on port 3001"}
+{"level":"info","message":"Worker 18296 started on port 3001"}
+{"level":"info","message":"Worker 17908 started on port 3001"}
+{"level":"info","message":"Worker 28248 died"}
+{"level":"info","message":"Worker 18656 died"}
+{"level":"info","message":"Worker 14028 died"}
+{"level":"info","message":"Worker 17908 died"}
+{"level":"info","message":"Worker 8112 died"}
+{"level":"info","message":"Worker 18296 died"}
+{"level":"info","message":"Worker 5872 died"}
+{"level":"info","message":"Worker 20932 died"}
+{"level":"info","message":"Worker 12456 died"}
+{"level":"info","message":"Worker 2424 died"}
+{"level":"info","message":"Worker 25676 died"}
+{"level":"info","message":"Worker 30656 died"}
+{"level":"info","message":"Worker 26460 started on port 3001"}
+{"level":"info","message":"Worker 15556 started on port 3001"}
+{"level":"info","message":"Worker 22412 started on port 3001"}
+{"level":"info","message":"Worker 22664 started on port 3001"}
+{"level":"info","message":"Worker 29428 started on port 3001"}
+{"level":"info","message":"Worker 19464 started on port 3001"}
+{"level":"info","message":"Worker 24716 started on port 3001"}
+{"level":"info","message":"Worker 7652 started on port 3001"}
+{"level":"info","message":"Worker 28432 started on port 3001"}
+{"level":"info","message":"Worker 16480 started on port 3001"}
+{"level":"info","message":"Worker 27864 started on port 3001"}
+{"level":"info","message":"Worker 6320 started on port 3001"}
+{"level":"info","message":"Worker 15556 died"}
+{"level":"info","message":"Worker 22412 died"}
+{"level":"info","message":"Worker 26460 died"}
+{"level":"info","message":"Worker 29428 died"}
+{"level":"info","message":"Worker 22664 died"}
+{"level":"info","message":"Worker 24716 died"}
+{"level":"info","message":"Worker 7652 died"}
+{"level":"info","message":"Worker 28432 died"}
+{"level":"info","message":"Worker 27864 died"}
+{"level":"info","message":"Worker 19464 died"}
+{"level":"info","message":"Worker 16480 died"}
+{"level":"info","message":"Worker 6320 died"}
+{"level":"info","message":"Worker 3792 started on port 3001"}
+{"level":"info","message":"Worker 22588 started on port 3001"}
+{"level":"info","message":"Worker 17048 started on port 3001"}
+{"level":"info","message":"Worker 26416 started on port 3001"}
+{"level":"info","message":"Worker 11088 started on port 3001"}
+{"level":"info","message":"Worker 8796 started on port 3001"}
+{"level":"info","message":"Worker 21104 started on port 3001"}
+{"level":"info","message":"Worker 13888 started on port 3001"}
+{"level":"info","message":"Worker 24860 started on port 3001"}
+{"level":"info","message":"Worker 5264 started on port 3001"}
+{"level":"info","message":"Worker 5056 started on port 3001"}
+{"level":"info","message":"Worker 28276 started on port 3001"}
+{"level":"info","message":"Worker 17048 died"}
+{"level":"info","message":"Worker 3792 died"}
+{"level":"info","message":"Worker 22588 died"}
+{"level":"info","message":"Worker 26416 died"}
+{"level":"info","message":"Worker 21104 died"}
+{"level":"info","message":"Worker 11088 died"}
+{"level":"info","message":"Worker 8796 died"}
+{"level":"info","message":"Worker 13888 died"}
+{"level":"info","message":"Worker 24860 died"}
+{"level":"info","message":"Worker 5264 died"}
+{"level":"info","message":"Worker 28276 died"}
+{"level":"info","message":"Worker 5056 died"}
+{"level":"info","message":"Worker 3712 started on port 3001"}
+{"level":"info","message":"Worker 17520 started on port 3001"}
+{"level":"info","message":"Worker 14264 started on port 3001"}
+{"level":"info","message":"Worker 15728 started on port 3001"}
+{"level":"info","message":"Worker 3364 started on port 3001"}
+{"level":"info","message":"Worker 19480 started on port 3001"}
+{"level":"info","message":"Worker 24772 started on port 3001"}
+{"level":"info","message":"Worker 25724 started on port 3001"}
+{"level":"info","message":"Worker 13908 started on port 3001"}
+{"level":"info","message":"Worker 15796 started on port 3001"}
+{"level":"info","message":"Worker 3800 started on port 3001"}
+{"level":"info","message":"Worker 21736 started on port 3001"}
+{"level":"info","message":"Worker 17520 died"}
+{"level":"info","message":"Worker 3712 died"}
+{"level":"info","message":"Worker 14264 died"}
+{"level":"info","message":"Worker 19480 died"}
+{"level":"info","message":"Worker 15728 died"}
+{"level":"info","message":"Worker 3364 died"}
+{"level":"info","message":"Worker 25724 died"}
+{"level":"info","message":"Worker 3800 died"}
+{"level":"info","message":"Worker 13908 died"}
+{"level":"info","message":"Worker 24772 died"}
+{"level":"info","message":"Worker 15796 died"}
+{"level":"info","message":"Worker 21736 died"}
+{"level":"info","message":"Worker 2336 started on port 3001"}
+{"level":"info","message":"Worker 7888 started on port 3001"}
+{"level":"info","message":"Worker 17032 started on port 3001"}
+{"level":"info","message":"Worker 29912 started on port 3001"}
+{"level":"info","message":"Worker 30416 started on port 3001"}
+{"level":"info","message":"Worker 29308 started on port 3001"}
+{"level":"info","message":"Worker 3036 started on port 3001"}
+{"level":"info","message":"Worker 8576 started on port 3001"}
+{"level":"info","message":"Worker 17536 started on port 3001"}
+{"level":"info","message":"Worker 14084 started on port 3001"}
+{"level":"info","message":"Worker 3012 started on port 3001"}
+{"level":"info","message":"Worker 16372 started on port 3001"}
+{"level":"info","message":"Worker 2336 died"}
+{"level":"info","message":"Worker 7888 died"}
+{"level":"info","message":"Worker 17032 died"}
+{"level":"info","message":"Worker 29912 died"}
+{"level":"info","message":"Worker 30416 died"}
+{"level":"info","message":"Worker 29308 died"}
+{"level":"info","message":"Worker 17536 died"}
+{"level":"info","message":"Worker 3036 died"}
+{"level":"info","message":"Worker 3012 died"}
+{"level":"info","message":"Worker 14084 died"}
+{"level":"info","message":"Worker 8576 died"}
+{"level":"info","message":"Worker 16372 died"}
+{"level":"info","message":"Worker 23592 started on port 3001"}
+{"level":"info","message":"Worker 12132 started on port 3001"}
+{"level":"info","message":"Worker 16804 started on port 3001"}
+{"level":"info","message":"Worker 14484 started on port 3001"}
+{"level":"info","message":"Worker 11456 started on port 3001"}
+{"level":"info","message":"Worker 25496 started on port 3001"}
+{"level":"info","message":"Worker 9184 started on port 3001"}
+{"level":"info","message":"Worker 12664 started on port 3001"}
+{"level":"info","message":"Worker 29792 started on port 3001"}
+{"level":"info","message":"Worker 9240 started on port 3001"}
+{"level":"info","message":"Worker 11452 started on port 3001"}
+{"level":"info","message":"Worker 2276 started on port 3001"}
+{"level":"info","message":"Worker 23592 died"}
+{"level":"info","message":"Worker 12132 died"}
+{"level":"info","message":"Worker 14484 died"}
+{"level":"info","message":"Worker 11456 died"}
+{"level":"info","message":"Worker 16804 died"}
+{"level":"info","message":"Worker 25496 died"}
+{"level":"info","message":"Worker 9184 died"}
+{"level":"info","message":"Worker 12664 died"}
+{"level":"info","message":"Worker 9240 died"}
+{"level":"info","message":"Worker 29792 died"}
+{"level":"info","message":"Worker 11452 died"}
+{"level":"info","message":"Worker 2276 died"}
+{"level":"info","message":"Worker 28700 started on port 3001"}
+{"level":"info","message":"Worker 21048 started on port 3001"}
+{"level":"info","message":"Worker 8584 started on port 3001"}
+{"level":"info","message":"Worker 592 started on port 3001"}
+{"level":"info","message":"Worker 15220 started on port 3001"}
+{"level":"info","message":"Worker 8428 started on port 3001"}
+{"level":"info","message":"Worker 11896 started on port 3001"}
+{"level":"info","message":"Worker 13764 started on port 3001"}
+{"level":"info","message":"Worker 4408 started on port 3001"}
+{"level":"info","message":"Master 10640 is running"}
+{"level":"info","message":"Worker 8000 started on port 3001"}
+{"level":"info","message":"Worker 20056 started on port 3001"}
+{"level":"info","message":"Worker 20528 started on port 3001"}
+{"level":"info","message":"Worker 17240 started on port 3001"}
+{"level":"info","message":"Worker 19480 started on port 3001"}
+{"level":"info","message":"Worker 2268 started on port 3001"}
+{"level":"info","message":"Worker 4792 started on port 3001"}
+{"level":"info","message":"Worker 23404 started on port 3001"}
+{"level":"info","message":"Worker 28824 started on port 3001"}
+{"level":"info","message":"Worker 2436 started on port 3001"}
+{"level":"info","message":"Worker 10120 started on port 3001"}
+{"level":"info","message":"Worker 30360 started on port 3001"}
+{"level":"info","message":"Worker 8000 died"}
+{"level":"info","message":"Worker 20056 died"}
+{"level":"info","message":"Worker 20528 died"}
+{"level":"info","message":"Worker 17240 died"}
+{"level":"info","message":"Worker 4792 died"}
+{"level":"info","message":"Worker 2268 died"}
+{"level":"info","message":"Worker 19480 died"}
+{"level":"info","message":"Worker 28824 died"}
+{"level":"info","message":"Worker 2436 died"}
+{"level":"info","message":"Worker 23404 died"}
+{"level":"info","message":"Worker 10120 died"}
+{"level":"info","message":"Worker 30360 died"}
+{"level":"info","message":"Worker 30376 started on port 3001"}
+{"level":"info","message":"Worker 10584 started on port 3001"}
+{"level":"info","message":"Worker 25276 started on port 3001"}
+{"level":"info","message":"Worker 25176 started on port 3001"}
+{"level":"info","message":"Worker 26108 started on port 3001"}
+{"level":"info","message":"Worker 20664 started on port 3001"}
+{"level":"info","message":"Worker 19628 started on port 3001"}
+{"level":"info","message":"Worker 19356 started on port 3001"}
+{"level":"info","message":"Worker 13596 started on port 3001"}
+{"level":"info","message":"Worker 23108 started on port 3001"}
+{"level":"info","message":"Worker 7736 started on port 3001"}
+{"level":"info","message":"Worker 8888 started on port 3001"}
+{"level":"info","message":"Worker 30376 died"}
+{"level":"info","message":"Worker 10584 died"}
+{"level":"info","message":"Worker 25276 died"}
+{"level":"info","message":"Worker 25176 died"}
+{"level":"info","message":"Worker 20664 died"}
+{"level":"info","message":"Worker 26108 died"}
+{"level":"info","message":"Worker 19356 died"}
+{"level":"info","message":"Worker 13596 died"}
+{"level":"info","message":"Worker 19628 died"}
+{"level":"info","message":"Worker 8888 died"}
+{"level":"info","message":"Worker 23108 died"}
+{"level":"info","message":"Worker 7736 died"}
+{"level":"info","message":"Worker 14912 started on port 3001"}
+{"level":"info","message":"Worker 8076 started on port 3001"}
+{"level":"info","message":"Worker 28372 started on port 3001"}
+{"level":"info","message":"Worker 21844 started on port 3001"}
+{"level":"info","message":"Worker 9928 started on port 3001"}
+{"level":"info","message":"Worker 20376 started on port 3001"}
+{"level":"info","message":"Worker 29560 started on port 3001"}
+{"level":"info","message":"Worker 23840 started on port 3001"}
+{"level":"info","message":"Worker 24556 started on port 3001"}
+{"level":"info","message":"Worker 7932 started on port 3001"}
+{"level":"info","message":"Worker 28388 started on port 3001"}
+{"level":"info","message":"Worker 20952 started on port 3001"}
+{"level":"info","message":"Worker 23840 died"}
+{"level":"info","message":"Worker 7932 died"}
+{"level":"info","message":"Worker 20376 died"}
+{"level":"info","message":"Worker 9928 died"}
+{"level":"info","message":"Worker 28372 died"}
+{"level":"info","message":"Worker 14912 died"}
+{"level":"info","message":"Worker 28388 died"}
+{"level":"info","message":"Worker 29560 died"}
+{"level":"info","message":"Worker 21844 died"}
+{"level":"info","message":"Worker 8076 died"}
+{"level":"info","message":"Worker 24556 died"}
+{"level":"info","message":"Worker 20952 died"}
+{"level":"info","message":"Worker 16252 started on port 3001"}
+{"level":"info","message":"Worker 26440 started on port 3001"}
+{"level":"info","message":"Worker 24892 started on port 3001"}
+{"level":"info","message":"Worker 13868 started on port 3001"}
+{"level":"info","message":"Worker 11756 started on port 3001"}
+{"level":"info","message":"Worker 27120 started on port 3001"}
+{"level":"info","message":"Worker 14020 started on port 3001"}
+{"level":"info","message":"Worker 29148 started on port 3001"}
+{"level":"info","message":"Worker 29584 started on port 3001"}
+{"level":"info","message":"Worker 27060 started on port 3001"}
+{"level":"info","message":"Worker 17300 started on port 3001"}
+{"level":"info","message":"Worker 10400 started on port 3001"}
+{"level":"info","message":"Worker 26440 died"}
+{"level":"info","message":"Worker 16252 died"}
+{"level":"info","message":"Worker 24892 died"}
+{"level":"info","message":"Worker 13868 died"}
+{"level":"info","message":"Worker 27120 died"}
+{"level":"info","message":"Worker 11756 died"}
+{"level":"info","message":"Worker 29584 died"}
+{"level":"info","message":"Worker 29148 died"}
+{"level":"info","message":"Worker 17300 died"}
+{"level":"info","message":"Worker 27060 died"}
+{"level":"info","message":"Worker 10400 died"}
+{"level":"info","message":"Worker 14020 died"}
+{"level":"info","message":"Worker 10380 started on port 3001"}
+{"level":"info","message":"Worker 27604 started on port 3001"}
+{"level":"info","message":"Worker 1988 started on port 3001"}
+{"level":"info","message":"Worker 29184 started on port 3001"}
+{"level":"info","message":"Worker 19868 started on port 3001"}
+{"level":"info","message":"Worker 21704 started on port 3001"}
+{"level":"info","message":"Worker 25632 started on port 3001"}
+{"level":"info","message":"Worker 28748 started on port 3001"}
+{"level":"info","message":"Worker 30488 started on port 3001"}
+{"level":"info","message":"Worker 1304 started on port 3001"}
+{"level":"info","message":"Worker 9900 started on port 3001"}
+{"level":"info","message":"Worker 25460 started on port 3001"}
+{"level":"info","message":"Worker 27604 died"}
+{"level":"info","message":"Worker 10380 died"}
+{"level":"info","message":"Worker 1988 died"}
+{"level":"info","message":"Worker 19868 died"}
+{"level":"info","message":"Worker 29184 died"}
+{"level":"info","message":"Worker 25632 died"}
+{"level":"info","message":"Worker 1304 died"}
+{"level":"info","message":"Worker 28748 died"}
+{"level":"info","message":"Worker 21704 died"}
+{"level":"info","message":"Worker 30488 died"}
+{"level":"info","message":"Worker 9900 died"}
+{"level":"info","message":"Worker 25460 died"}
+{"level":"info","message":"Worker 25536 started on port 3001"}
+{"level":"info","message":"Worker 9372 started on port 3001"}
+{"level":"info","message":"Worker 4104 started on port 3001"}
+{"level":"info","message":"Worker 19464 started on port 3001"}
+{"level":"info","message":"Worker 20956 started on port 3001"}
+{"level":"info","message":"Worker 22664 started on port 3001"}
+{"level":"info","message":"Worker 3868 started on port 3001"}
+{"level":"info","message":"Worker 20548 started on port 3001"}
+{"level":"info","message":"Worker 29832 started on port 3001"}
+{"level":"info","message":"Worker 29660 started on port 3001"}
+{"level":"info","message":"Worker 17892 started on port 3001"}
+{"level":"info","message":"Worker 8036 started on port 3001"}
+{"level":"info","message":"Worker 25536 died"}
+{"level":"info","message":"Worker 9372 died"}
+{"level":"info","message":"Worker 4104 died"}
+{"level":"info","message":"Worker 19464 died"}
+{"level":"info","message":"Worker 20956 died"}
+{"level":"info","message":"Worker 3868 died"}
+{"level":"info","message":"Worker 22664 died"}
+{"level":"info","message":"Worker 17892 died"}
+{"level":"info","message":"Worker 29832 died"}
+{"level":"info","message":"Worker 20548 died"}
+{"level":"info","message":"Worker 8036 died"}
+{"level":"info","message":"Worker 29660 died"}
+{"level":"info","message":"Master 8044 is running"}
+{"level":"info","message":"Worker 24344 started on port 3001"}
+{"level":"info","message":"Worker 12664 started on port 3001"}
+{"level":"info","message":"Worker 24344 died"}
+{"level":"info","message":"Worker 12664 died"}
+{"level":"info","message":"Worker 22132 started on port 3001"}
+{"level":"info","message":"Worker 29412 started on port 3001"}
+{"level":"info","message":"Worker 22132 died"}
+{"level":"info","message":"Worker 29412 died"}
+{"level":"info","message":"Worker 26848 started on port 3001"}
+{"level":"info","message":"Worker 8144 started on port 3001"}
+{"level":"info","message":"Worker 26848 died"}
+{"level":"info","message":"Worker 8144 died"}
+{"level":"info","message":"Worker 13208 started on port 3001"}
+{"level":"info","message":"Worker 21048 started on port 3001"}
+{"level":"info","message":"Worker 13208 died"}
+{"level":"info","message":"Worker 21048 died"}
+{"level":"info","message":"Worker 29736 started on port 3001"}
+{"level":"info","message":"Worker 28428 started on port 3001"}
+{"level":"info","message":"Worker 29736 died"}
+{"level":"info","message":"Worker 28428 died"}
+{"level":"info","message":"Worker 27356 started on port 3001"}
+{"level":"info","message":"Worker 9684 started on port 3001"}
+{"level":"info","message":"Worker 27356 died"}
+{"level":"info","message":"Worker 9684 died"}
+{"level":"info","message":"Worker 25672 started on port 3001"}
+{"level":"info","message":"Worker 6516 started on port 3001"}
+{"level":"info","message":"Master 5036 is running"}
+{"level":"info","message":"Worker 8716 started on port 3001"}
+{"level":"info","message":"Worker 8716 died"}
+{"level":"info","message":"Worker 17592 started on port 3001"}
+{"level":"info","message":"Master 8576 is running"}
+{"level":"info","message":"Worker 25992 started on port 3001"}
+{"level":"info","message":"Master 16932 is running"}
+{"level":"info","message":"Worker 26508 started on port 3001"}
+{"level":"info","message":"Worker 9740 started on port 3001"}
+{"level":"info","message":"Worker 2692 started on port 3001"}
+{"level":"info","message":"Master 14268 is running"}
+{"level":"info","message":"Worker 11012 started on port 3001"}
+{"level":"info","message":"Worker 28920 started on port 3001"}
+{"level":"info","message":"Worker 20300 started on port 3001"}
+{"level":"info","message":"Worker 924 started on port 3001"}
+{"level":"info","message":"Worker 20056 started on port 3001"}
+{"level":"info","message":"Master 29412 is running"}
+{"level":"info","message":"Worker 7228 started on port 3001"}
+{"level":"info","message":"Worker 21924 started on port 3001"}
+{"level":"info","message":"Worker 9896 started on port 3001"}
+{"level":"info","message":"Worker 2236 started on port 3001"}
+{"level":"info","message":"Worker 8492 started on port 3001"}
+{"level":"info","message":"Worker 20004 started on port 3001"}
+{"level":"info","message":"Master 28164 is running"}
+{"level":"info","message":"Worker 9572 started on port 3001"}
+{"level":"info","message":"Worker 1968 started on port 3001"}
+{"level":"info","message":"Worker 30300 started on port 3001"}
+{"level":"info","message":"Worker 30064 started on port 3001"}
+{"level":"info","message":"Worker 30656 started on port 3001"}
+{"level":"info","message":"Worker 14508 started on port 3001"}
+{"level":"info","message":"Worker 16256 started on port 3001"}
+{"level":"info","message":"Worker 4216 started on port 3001"}
+{"level":"info","message":"Worker 26596 started on port 3001"}
+{"level":"info","message":"Worker 16236 started on port 3001"}
+{"level":"info","message":"Worker 16488 started on port 3001"}
+{"level":"info","message":"Worker 30588 started on port 3001"}
+{"level":"info","message":"Worker 16488 died"}
+{"level":"info","message":"Worker 30588 died"}
+{"level":"info","message":"Worker 9572 died"}
+{"level":"info","message":"Worker 1968 died"}
+{"level":"info","message":"Worker 30300 died"}
+{"level":"info","message":"Worker 30064 died"}
+{"level":"info","message":"Worker 30656 died"}
+{"level":"info","message":"Worker 14508 died"}
+{"level":"info","message":"Worker 16236 died"}
+{"level":"info","message":"Worker 16256 died"}
+{"level":"info","message":"Worker 26596 died"}
+{"level":"info","message":"Worker 17388 started on port 3001"}
+{"level":"info","message":"Worker 29924 started on port 3001"}
+{"level":"info","message":"Worker 8888 started on port 3001"}
+{"level":"info","message":"Worker 736 started on port 3001"}
+{"level":"info","message":"Worker 17228 started on port 3001"}
+{"level":"info","message":"Worker 19844 started on port 3001"}
+{"level":"info","message":"Worker 19516 started on port 3001"}
+{"level":"info","message":"Worker 10628 started on port 3001"}
+{"level":"info","message":"Worker 17044 started on port 3001"}
+{"level":"info","message":"Worker 23468 started on port 3001"}
+{"level":"info","message":"Worker 1304 started on port 3001"}
+{"level":"info","message":"Worker 17044 died"}
+{"level":"info","message":"Worker 1304 died"}
+{"level":"info","message":"Worker 23468 died"}
+{"level":"info","message":"Worker 736 died"}
+{"level":"info","message":"Worker 17228 died"}
+{"level":"info","message":"Master 22384 is running"}
+{"level":"info","message":"Worker 4888 started on port 3001"}
+{"level":"info","message":"Worker 3964 started on port 3001"}
+{"level":"info","message":"Worker 13848 started on port 3001"}
+{"level":"info","message":"Worker 29428 started on port 3001"}
+{"level":"info","message":"Worker 3868 started on port 3001"}
+{"level":"info","message":"Worker 19376 started on port 3001"}
+{"level":"info","message":"Worker 29872 started on port 3001"}
+{"level":"info","message":"Worker 5580 started on port 3001"}
+{"level":"info","message":"Worker 13816 started on port 3001"}
+{"level":"info","message":"Worker 22240 started on port 3001"}
+{"level":"info","message":"Worker 19376 died"}
+{"level":"info","message":"Worker 13816 died"}
+{"level":"info","message":"Worker 3964 died"}
+{"level":"info","message":"Worker 13848 died"}
+{"level":"info","message":"Worker 29428 died"}
+{"level":"info","message":"Worker 3868 died"}
+{"level":"info","message":"Worker 29872 died"}
+{"level":"info","message":"Worker 24060 started on port 3001"}
+{"level":"info","message":"Worker 4684 started on port 3001"}
+{"level":"info","message":"Master 3796 is running"}
+{"level":"info","message":"Worker 25632 started on port 3001"}
+{"level":"info","message":"Worker 25944 started on port 3001"}
+{"level":"info","message":"Worker 26508 started on port 3001"}
+{"level":"info","message":"Worker 17536 started on port 3001"}
+{"level":"info","message":"Worker 22372 started on port 3001"}
+{"level":"info","message":"Worker 15404 started on port 3001"}
+{"level":"info","message":"Worker 17104 started on port 3001"}
+{"level":"info","message":"Worker 29504 started on port 3001"}
+{"level":"info","message":"Worker 15404 died"}
+{"level":"info","message":"Worker 17104 died"}
+{"level":"info","message":"Worker 22372 died"}
+{"level":"info","message":"Worker 26508 died"}
+{"level":"info","message":"Worker 29504 died"}
+{"level":"info","message":"Worker 1264 started on port 3001"}
+{"level":"info","message":"Worker 11404 started on port 3001"}
+{"level":"info","message":"Worker 15276 started on port 3001"}
+{"level":"info","message":"Worker 17700 started on port 3001"}
+{"level":"info","message":"Worker 23880 started on port 3001"}
+{"level":"info","message":"Master 15696 is running"}
+{"level":"info","message":"Worker 10628 started on port 3001"}
+{"level":"info","message":"Worker 15792 started on port 3001"}
+{"level":"info","message":"Worker 19440 started on port 3001"}
+{"level":"info","message":"Worker 11000 started on port 3001"}
+{"level":"info","message":"Worker 9560 started on port 3001"}
+{"level":"info","message":"Worker 25840 started on port 3001"}
+{"level":"info","message":"Worker 28256 started on port 3001"}
+{"level":"info","message":"Worker 11000 died"}
+{"level":"info","message":"Worker 13572 started on port 3001"}
+{"level":"info","message":"Worker 13572 died"}
+{"level":"info","message":"Worker 28972 started on port 3001"}
+{"level":"info","message":"Master 10232 is running"}
+{"level":"info","message":"Worker 11756 started on port 3001"}
+{"level":"info","message":"Worker 20720 started on port 3001"}
+{"level":"info","message":"Worker 20364 started on port 3001"}
+{"level":"info","message":"Worker 28760 started on port 3001"}
+{"level":"info","message":"Worker 2120 started on port 3001"}
+{"level":"info","message":"Worker 25272 started on port 3001"}
+{"level":"info","message":"Master 12664 is running"}
+{"level":"info","message":"Master 30528 is running"}
+{"level":"info","message":"Worker 16976 started on port 3001"}
+{"level":"info","message":"Worker 22896 started on port 3001"}
+{"level":"info","message":"Worker 15912 started on port 3001"}
+{"level":"info","message":"Worker 10680 started on port 3001"}
+{"level":"info","message":"Worker 10040 started on port 3001"}
+{"level":"info","message":"Worker 30320 started on port 3001"}
+{"level":"info","message":"Master 30152 is running"}
+{"level":"info","message":"Worker 28568 started on port 3001"}
+{"level":"info","message":"Worker 8456 started on port 3001"}
+{"level":"info","message":"Worker 15004 started on port 3001"}
+{"level":"info","message":"Worker 12156 started on port 3001"}
+{"level":"info","message":"Worker 17908 started on port 3001"}
+{"level":"info","message":"Worker 24660 started on port 3001"}
+{"level":"info","message":"Master 12168 is running"}
+{"level":"info","message":"Master 16396 is running"}
+{"level":"info","message":"Worker 4804 started on port 3001"}
+{"level":"info","message":"Worker 20716 started on port 3001"}
+{"level":"info","message":"Worker 11700 started on port 3001"}
+{"level":"info","message":"Worker 14756 started on port 3001"}
+{"level":"info","message":"Worker 21776 started on port 3001"}
+{"level":"info","message":"Worker 25760 started on port 3001"}
+{"level":"info","message":"Master 21560 is running"}
+{"level":"info","message":"Worker 25200 started on port 3001"}
+{"level":"info","message":"Worker 1496 started on port 3001"}
+{"level":"info","message":"Worker 18056 started on port 3001"}
+{"level":"info","message":"Worker 2196 started on port 3001"}
+{"level":"info","message":"Worker 5024 started on port 3001"}
+{"level":"info","message":"Worker 27604 started on port 3001"}
+{"level":"info","message":"Master 30188 is running"}
+{"level":"info","message":"Worker 6896 started on port 3001"}
+{"level":"info","message":"Worker 16820 started on port 3001"}
+{"level":"info","message":"Worker 9988 started on port 3001"}
+{"level":"info","message":"Worker 14612 started on port 3001"}
+{"level":"info","message":"Worker 8800 started on port 3001"}
+{"level":"info","message":"Worker 4824 started on port 3001"}
+{"level":"info","message":"Master 11548 is running"}
+{"level":"info","message":"Worker 27164 started on port 3001"}
+{"level":"info","message":"Worker 5584 started on port 3001"}
+{"level":"info","message":"Worker 28380 started on port 3001"}
+{"level":"info","message":"Worker 17696 started on port 3001"}
+{"level":"info","message":"Worker 1928 started on port 3001"}
+{"level":"info","message":"Worker 17956 started on port 3001"}
+{"level":"info","message":"Master 27124 is running"}
+{"level":"info","message":"Worker 20588 started on port 3001"}
+{"level":"info","message":"Worker 5432 started on port 3001"}
+{"level":"info","message":"Worker 25868 started on port 3001"}
+{"level":"info","message":"Worker 22188 started on port 3001"}
+{"level":"info","message":"Worker 11708 started on port 3001"}
+{"level":"info","message":"Worker 26928 started on port 3001"}
+{"level":"info","message":"Worker 11708 died"}
+{"level":"info","message":"Worker 10252 started on port 3001"}
+{"level":"info","message":"Worker 10252 died"}
+{"level":"info","message":"Worker 4464 started on port 3001"}
+{"level":"info","message":"Worker 4464 died"}
+{"level":"info","message":"Worker 9432 started on port 3001"}
+{"level":"error","message":"Video processing failed: ffmpeg exited with code 2964172552: Error opening input file s3://goldenmemory/videos/e34bad5f-2676-4585-ab2c-14adbb8ab0e4/original/jagdish-hare-jy-jgdiish-hre.mp4.\nError opening input files: Protocol not found\n","stack":"Error: ffmpeg exited with code 2964172552: Error opening input file s3://goldenmemory/videos/e34bad5f-2676-4585-ab2c-14adbb8ab0e4/original/jagdish-hare-jy-jgdiish-hre.mp4.\nError opening input files: Protocol not found\n\n    at ChildProcess.<anonymous> (D:\\videostreaminapp\\server\\node_modules\\fluent-ffmpeg\\lib\\processor.js:180:22)\n    at ChildProcess.emit (node:events:517:28)\n    at ChildProcess.emit (node:domain:489:12)\n    at ChildProcess._handle.onexit (node:internal/child_process:292:12)"}
+{"level":"info","message":"Master 8712 is running"}
+{"level":"info","message":"Worker 30692 started on port 3001"}
+{"level":"info","message":"Worker 25728 started on port 3001"}
+{"level":"info","message":"Worker 16488 started on port 3001"}
+{"level":"info","message":"Worker 22896 started on port 3001"}
+{"level":"info","message":"Worker 16084 started on port 3001"}
+{"level":"info","message":"Worker 27640 started on port 3001"}
+{"level":"error","message":"Video processing failed: ffmpeg exited with code 2964172552: Error opening input file s3://goldenmemory/videos/dece4a1c-d014-408a-96b2-10ee05fdf297/original/jagdish-hare-jy-jgdiish-hre.mp4.\nError opening input files: Protocol not found\n","stack":"Error: ffmpeg exited with code 2964172552: Error opening input file s3://goldenmemory/videos/dece4a1c-d014-408a-96b2-10ee05fdf297/original/jagdish-hare-jy-jgdiish-hre.mp4.\nError opening input files: Protocol not found\n\n    at ChildProcess.<anonymous> (D:\\videostreaminapp\\server\\node_modules\\fluent-ffmpeg\\lib\\processor.js:180:22)\n    at ChildProcess.emit (node:events:517:28)\n    at ChildProcess.emit (node:domain:489:12)\n    at ChildProcess._handle.onexit (node:internal/child_process:292:12)"}
