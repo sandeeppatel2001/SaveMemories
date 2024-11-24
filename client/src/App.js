@@ -6,15 +6,15 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        {/* <div className="container">
+        <div className="container">
           <div className="left-section">
-            <VideoPlayer videoId="1731846190983" />
+            <VideoPlayer videoId="f4c641b9-7686-45a6-83f9-12401f8d30f5" />
           </div>
           <div className="right-section">
             <RecommendedVideos />
           </div>
-        </div> */}
-        <VideoUpload />
+        </div>
+        {/* <VideoUpload /> */}
       </header>
     </div>
   );

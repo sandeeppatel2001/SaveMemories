@@ -17,6 +17,7 @@ const connectDB = require("./mongodb/mongoconnection");
 dotenv.config({ path: "../.env" });
 connectDB();
 const videoIdModel = require("./mongodb/models");
+const os = require("os");
 
 // Configuration and Environment Variables
 const config = {
@@ -69,10 +70,12 @@ const videoQueue = new Bull("video-processing", {
 
 // Video quality configurations
 const videoQualities = [
-  { resolution: "1080p", height: 1080, bitrate: "4000k" },
-  { resolution: "720p", height: 720, bitrate: "2500k" },
-  { resolution: "480p", height: 480, bitrate: "1500k" },
+  { resolution: "144p", height: 144, bitrate: "400k" },
+  { resolution: "240p", height: 240, bitrate: "800k" },
   { resolution: "360p", height: 360, bitrate: "1000k" },
+  { resolution: "480p", height: 480, bitrate: "1500k" },
+  { resolution: "720p", height: 720, bitrate: "2500k" },
+  { resolution: "1080p", height: 1080, bitrate: "4000k" },
 ];
 let app;
 if (cluster.isMaster) {
@@ -80,7 +83,7 @@ if (cluster.isMaster) {
   logger.info(`Master ${process.pid} is running`);
 
   // Fork workers
-  for (let i = 0; i < 6; i++) {
+  for (let i = 0; i < 1; i++) {
     cluster.fork();
   }
 
@@ -106,12 +109,13 @@ if (cluster.isMaster) {
   const upload = multer({
     storage: multer.memoryStorage(),
     limits: {
-      fileSize: 100 * 1024 * 1024, // 100MB limit
+      fileSize: 1000 * 1024 * 1024, // 100MB limit
     },
   });
 
   // Helper function to upload to S3
   async function uploadToS3(buffer, key) {
+    console.log("inside uploadToS3 function");
     return s3
       .upload({
         Bucket: config.aws.bucket,
@@ -122,13 +126,18 @@ if (cluster.isMaster) {
       .promise();
   }
 
-  // Process video function
-  async function processVideoSegment(inputPath, quality, videoId) {
-    const outputDir = `/tmp/${videoId}/${quality.resolution}`;
+  // Helper function to process buffer directly to HLS
+  async function processBufferToHLS(buffer, videoId, quality) {
+    const outputDir = path.join(os.tmpdir(), videoId, quality.resolution);
     await fs.mkdir(outputDir, { recursive: true });
 
     return new Promise((resolve, reject) => {
-      ffmpeg(inputPath)
+      // Create a temporary input stream from buffer
+      const inputStream = require("stream").Readable.from(buffer);
+      console.log("inside processBufferToHLS function");
+      ffmpeg()
+        .input(inputStream)
+        .inputFormat("mp4") // Specify input format since we're using buffer
         .size(`?x${quality.height}`)
         .videoBitrate(quality.bitrate)
         .format("hls")
@@ -140,43 +149,79 @@ if (cluster.isMaster) {
           `${outputDir}/segment%d.ts`,
           `-hls_key_info_file ${outputDir}/enc.keyinfo`,
         ])
+        .on("start", (commandLine) => {
+          logger.info(`Started FFmpeg with command: ${commandLine}`);
+        })
+        .on("progress", (progress) => {
+          logger.info(
+            `Processing ${quality.resolution}: ${progress.percent}% done`
+          );
+        })
         .on("end", async () => {
           try {
-            // Upload segments to S3
+            // Upload processed segments to S3
             const files = await fs.readdir(outputDir);
             for (const file of files) {
-              const fileBuffer = await fs.readFile(`${outputDir}/${file}`);
+              const fileBuffer = await fs.readFile(path.join(outputDir, file));
               await uploadToS3(
                 fileBuffer,
                 `videos/${videoId}/${quality.resolution}/${file}`
               );
             }
+
+            // Cleanup temporary directory
+            await fs.rm(outputDir, { recursive: true, force: true });
             resolve();
           } catch (error) {
             reject(error);
           }
         })
-        .on("error", reject)
+        .on("error", (err) => {
+          logger.error(`FFmpeg error: ${err.message}`);
+          reject(err);
+        })
         .save(`${outputDir}/playlist.m3u8`);
     });
   }
 
-  // Queue processor
+  // Memory management configuration
+  const MAX_BUFFER_SIZE = 20 * 1024 * 1024; // 100MB threshold
+
+  // Hybrid approach based on file size
+  async function processVideo(videoId, buffer, quality) {
+    if (buffer.length > MAX_BUFFER_SIZE) {
+      // Use file-based approach for large files
+      const tempPath = path.join(os.tmpdir(), `${videoId}_input.mp4`);
+      await fs.writeFile(tempPath, buffer);
+      try {
+        await processFileToHLS(tempPath, videoId, quality);
+      } finally {
+        await fs.unlink(tempPath);
+      }
+    } else {
+      // Use buffer-based approach for smaller files
+      await processBufferToHLS(buffer, videoId, quality);
+    }
+  }
+
+  // Updated queue processor
   videoQueue.process(async (job) => {
-    const { videoId, inputPath } = job.data;
+    const { videoId, videoBuffer } = job.data;
+
     try {
+      await redis.set(`video:${videoId}:status`, "processing");
+
+      // Process all quality variants using the buffer directly
       await Promise.all(
-        videoQualities.map((quality) =>
-          processVideoSegment(inputPath, quality, videoId)
+        videoQualities.map(
+          (quality) => processBufferToHLS(videoBuffer, videoId, quality)
+          // processVideo(videoId, videoBuffer, quality)
         )
       );
 
-      // Cleanup temporary files
-      await fs.rm(`/tmp/${videoId}`, { recursive: true, force: true });
-
-      // Update video status in Redis
       await redis.set(`video:${videoId}:status`, "completed");
-
+      //  save videoid in mongodb
+      await videoIdModel.create({ videoId });
       return { success: true, videoId };
     } catch (error) {
       logger.error("Video processing failed:", error);
@@ -184,27 +229,95 @@ if (cluster.isMaster) {
       throw error;
     }
   });
-
-  // Upload endpoint
+  app.get("/checkpid", (req, res) => {
+    res.json({ pid: process.pid });
+  });
+  // Updated upload endpoint
   app.post("/upload", upload.single("video"), async (req, res) => {
     try {
-      const videoId = crypto.randomUUID();
+      console.log("pid", process.pid);
+      // Validate file type
+      if (!req.file.mimetype.startsWith("video/")) {
+        throw new Error("Invalid file type. Only video files are allowed.");
+      }
 
-      // Upload original file to S3
-      await uploadToS3(
-        req.file.buffer,
-        `videos/${videoId}/original/${req.file.originalname}`
+      logger.info(
+        `Received file: ${JSON.stringify({
+          originalname: req.file.originalname,
+          mimetype: req.file.mimetype,
+          size: req.file.size,
+        })}`
       );
 
-      // Add to processing queue
-      await videoQueue.add({
-        videoId,
-        inputPath: `s3://${config.aws.bucket}/videos/${videoId}/original/${req.file.originalname}`,
-      });
-      //  store videoId in mongodb
-      await videoIdModel.create({ videoId });
-      // Set initial status in Redis
-      await redis.set(`video:${videoId}:status`, "processing");
+      const videoId = crypto.randomUUID();
+
+      if (req.file.buffer.length > MAX_BUFFER_SIZE) {
+        console.log("Processing large file");
+
+        const tempDir = path.join(__dirname, "tempvideos", videoId, "original");
+        await fs.mkdir(tempDir, { recursive: true });
+
+        const tempPath = path.join(tempDir, "input.mp4");
+        await fs.writeFile(tempPath, req.file.buffer);
+
+        try {
+          // Validate video file before processing
+          await new Promise((resolve, reject) => {
+            ffmpeg.ffprobe(tempPath, (err, metadata) => {
+              if (err) {
+                reject(new Error("Invalid video file"));
+                return;
+              }
+              if (
+                !metadata.streams.some(
+                  (stream) => stream.codec_type === "video"
+                )
+              ) {
+                reject(new Error("No video stream found"));
+                return;
+              }
+              resolve();
+            });
+          });
+
+          await redis.set(`video:${videoId}:status`, "processing");
+
+          // Process one quality at a time to avoid memory issues
+          for (const quality of videoQualities) {
+            await processFileToHLS(tempPath, videoId, quality);
+          }
+
+          await redis.set(`video:${videoId}:status`, "completed");
+        } catch (error) {
+          await redis.set(`video:${videoId}:status`, "failed");
+          throw error;
+        } finally {
+          // Cleanup
+          try {
+            await fs.rm(path.join(__dirname, "tempvideos", videoId), {
+              recursive: true,
+              force: true,
+            });
+          } catch (cleanupError) {
+            logger.error(`Cleanup error: ${cleanupError.message}`);
+          }
+        }
+      } else {
+        // For smaller files: Use queue
+        console.log("inside small file");
+        logger.info("Processing small file");
+        await videoQueue.add(
+          {
+            videoId,
+            videoBuffer: req.file.buffer,
+          },
+          {
+            removeOnComplete: true,
+            attempts: 3,
+          }
+        );
+        logger.info("Added video to queue");
+      }
 
       res.json({
         success: true,
@@ -213,8 +326,131 @@ if (cluster.isMaster) {
       });
     } catch (error) {
       logger.error("Upload failed:", error);
-      res.status(500).json({ error: "Upload failed" });
+      res.status(500).json({
+        error: "Upload failed",
+        details: error.message,
+      });
     }
+  });
+
+  // First, set the FFmpeg path explicitly
+  const ffmpeg = require("fluent-ffmpeg");
+  const ffmpegPath = require("@ffmpeg-installer/ffmpeg").path;
+  const ffprobePath = require("@ffprobe-installer/ffprobe").path;
+
+  ffmpeg.setFfmpegPath(ffmpegPath);
+  ffmpeg.setFfprobePath(ffprobePath);
+
+  // Updated processFileToHLS function with better error handling
+  async function processFileToHLS(inputPath, videoId, quality) {
+    const outputDir = path.join(
+      __dirname,
+      "tempvideos",
+      videoId,
+      quality.resolution
+    );
+    await fs.mkdir(outputDir, { recursive: true });
+
+    // First verify the input file
+    try {
+      await new Promise((resolve, reject) => {
+        ffmpeg.ffprobe(inputPath, (err, metadata) => {
+          if (err) {
+            logger.error(`FFprobe error: ${err.message}`);
+            reject(err);
+            return;
+          }
+          logger.info(
+            `Input file metadata: ${JSON.stringify(metadata.format)}`
+          );
+          resolve(metadata);
+        });
+      });
+    } catch (error) {
+      logger.error(`File validation failed: ${error.message}`);
+      throw error;
+    }
+
+    return new Promise((resolve, reject) => {
+      ffmpeg(inputPath)
+        .videoCodec("libx264") // Specify video codec
+        .audioCodec("aac") // Specify audio codec
+        .size(`?x${quality.height}`)
+        .videoBitrate(quality.bitrate)
+        .format("hls")
+        .outputOptions([
+          "-hls_time 10",
+          "-hls_list_size 0",
+          "-hls_segment_type mpegts",
+          "-hls_segment_filename",
+          `${outputDir}/segment%d.ts`,
+          "-hls_flags delete_segments", // Clean up segments
+          "-start_number 0",
+          "-g 30", // GOP size
+          "-sc_threshold 0", // Disable scene change detection
+          "-b_strategy 0", // Fast encoding
+          "-preset fast", // Encoding preset
+          "-profile:v main", // H.264 profile
+          "-level:v 3.1", // H.264 level
+          "-max_muxing_queue_size 1024", // Prevent muxing queue errors
+        ])
+        .on("start", (commandLine) => {
+          logger.info(`FFmpeg started with command: ${commandLine}`);
+        })
+        .on("progress", (progress) => {
+          logger.info(
+            `Processing ${quality.resolution}: ${progress.percent}% done`
+          );
+          logger.info(`Processing details: ${JSON.stringify(progress)}`);
+        })
+        .on("end", async () => {
+          try {
+            logger.info(
+              `FFmpeg processing completed for ${quality.resolution}`
+            );
+
+            // Verify output files exist
+            const files = await fs.readdir(outputDir);
+            logger.info(`Generated files: ${files.join(", ")}`);
+
+            // Upload processed segments to S3
+            for (const file of files) {
+              const fileBuffer = await fs.readFile(path.join(outputDir, file));
+              await uploadToS3(
+                fileBuffer,
+                `videos/${videoId}/${quality.resolution}/${file}`
+              );
+            }
+
+            // Cleanup temporary directory
+            await fs.rm(outputDir, { recursive: true, force: true });
+            resolve();
+          } catch (error) {
+            logger.error(`Post-processing error: ${error.message}`);
+            reject(error);
+          }
+        })
+        .on("error", (err, stdout, stderr) => {
+          logger.error(`FFmpeg error: ${err.message}`);
+          logger.error(`FFmpeg stdout: ${stdout}`);
+          logger.error(`FFmpeg stderr: ${stderr}`);
+          reject(err);
+        })
+        .save(`${outputDir}/playlist.m3u8`);
+    });
+  }
+
+  // Optional: Add progress tracking
+  const progressTracker = new Map();
+
+  videoQueue.on("progress", (job, progress) => {
+    progressTracker.set(job.data.videoId, progress);
+  });
+
+  // Add progress endpoint
+  app.get("/progress/:videoId", (req, res) => {
+    const progress = progressTracker.get(req.params.videoId) || 0;
+    res.json({ progress });
   });
 
   // Status check endpoint
@@ -260,6 +496,18 @@ if (cluster.isMaster) {
     logger.error("Unhandled error:", error);
     res.status(500).json({ error: "Internal server error" });
   });
+
+  // Add memory monitoring
+  const monitorMemory = () => {
+    const used = process.memoryUsage();
+    logger.info({
+      rss: `${Math.round(used.rss / 1024 / 1024)}MB`,
+      heapTotal: `${Math.round(used.heapTotal / 1024 / 1024)}MB`,
+      heapUsed: `${Math.round(used.heapUsed / 1024 / 1024)}MB`,
+    });
+  };
+
+  videoQueue.on("active", monitorMemory);
 
   // Start server
   app.listen(config.app.port, () => {
