@@ -1,79 +1,66 @@
 .recommended-videos {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: clamp(8px, 1.5vw, 15px);
+  padding: clamp(5px, 1vw, 10px);
 }
 
 .video-card {
   display: flex;
-  gap: 10px;
-  padding: 10px;
+  gap: clamp(5px, 1vw, 10px);
+  padding: clamp(5px, 1vw, 10px);
   background: rgba(255, 255, 255, 0.05);
-  border-radius: 8px;
+  border-radius: clamp(4px, 0.5vw, 8px);
   cursor: pointer;
   transition: background 0.2s;
+  transition: background-color 0.3s ease;
 }
 
 .video-card:hover {
   background: rgba(255, 255, 255, 0.1);
 }
 
+.video-card.selected {
+  background-color: hsl(0, 0%, 7%);
+}
+
 .thumbnail {
-  width: 168px;
-  height: 94px;
-  border-radius: 4px;
+  width: clamp(100px, 25vw, 168px);
+  height: clamp(56px, 14vw, 94px);
+  border-radius: clamp(2px, 0.4vw, 4px);
   object-fit: cover;
 }
 
 .video-card-info {
   flex: 1;
+  min-width: 0;
   text-align: left;
 }
 
 .video-card-title {
-  font-size: 0.9rem;
-  margin-bottom: 5px;
+  font-size: clamp(0.75rem, 1.5vw, 1rem);
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  margin-bottom: clamp(2px, 0.5vw, 5px);
   color: white;
 }
 
 .video-card-channel {
-  font-size: 0.8rem;
+  font-size: clamp(0.65rem, 1.2vw, 0.9rem);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   color: #aaa;
 }
 
 @media screen and (max-width: 768px) {
   .recommended-videos {
-    gap: 10px;
-    padding: 10px;
-    margin-top: 10px;
     height: calc(100vh - 56.25vw - 20px);
     overflow-y: auto;
-  }
-
-  .recommended-videos::-webkit-scrollbar {
-    width: 8px;
-  }
-
-  .recommended-videos::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.1);
-  }
-
-  .recommended-videos::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 4px;
-  }
-
-  .video-card {
-    border-radius: 4px;
-  }
-
-  .thumbnail {
-    width: 140px;
-    height: 79px;
-  }
-
-  .video-card-title {
-    font-size: 0.85rem;
   }
 }
 

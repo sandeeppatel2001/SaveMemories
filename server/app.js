@@ -250,7 +250,10 @@ if (cluster.isMaster) {
       );
 
       const videoId = crypto.randomUUID();
+      await videoIdModel.create({ videoId });
+      // take a screenshot of the video and save screenshot to s3 bucket and get s3 url for screenshot then save in mongodb with videoId
 
+      console.log("screenshot", screenshot);
       if (req.file.buffer.length > MAX_BUFFER_SIZE) {
         console.log("Processing large file");
 
@@ -283,9 +286,14 @@ if (cluster.isMaster) {
           await redis.set(`video:${videoId}:status`, "processing");
 
           // Process one quality at a time to avoid memory issues
-          for (const quality of videoQualities) {
-            await processFileToHLS(tempPath, videoId, quality);
-          }
+          // for (const quality of videoQualities) {
+          //   await processFileToHLS(tempPath, videoId, quality);
+          // }
+          await Promise.all(
+            videoQualities.map((quality) =>
+              processFileToHLS(tempPath, videoId, quality)
+            )
+          );
 
           await redis.set(`video:${videoId}:status`, "completed");
         } catch (error) {
@@ -318,7 +326,8 @@ if (cluster.isMaster) {
         );
         logger.info("Added video to queue");
       }
-
+      //  save videoid in mongodb
+      await videoIdModel.create({ videoId });
       res.json({
         success: true,
         videoId,
@@ -490,7 +499,12 @@ if (cluster.isMaster) {
       res.status(404).json({ error: "File not found" });
     }
   });
-
+  app.get("/getvideoId", async (req, res) => {
+    console.log("getvideoId get request");
+    const videoId = await videoIdModel.find().limit(20);
+    console.log("videoId", videoId);
+    res.send(videoId);
+  });
   // Error handling middleware
   app.use((error, req, res, next) => {
     logger.error("Unhandled error:", error);
