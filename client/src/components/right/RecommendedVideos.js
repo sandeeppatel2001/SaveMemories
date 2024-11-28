@@ -17,7 +17,9 @@ const RecommendedVideos = ({ setvideoid }) => {
             id: 1,
             title: "Sample Video 1",
             channel: "Channel Name",
-            thumbnail: thumbnail,
+            thumbnail: videodata.thumbnailUrl
+              ? `https://108and7.s3.ap-south-1.amazonaws.com/videos/${videodata.videoId}/thumbnail.jpg`
+              : thumbnail,
             videoId: videodata.videoId,
           });
         });
@@ -87,8 +89,8 @@ const RecommendedVideos = ({ setvideoid }) => {
         >
           <img
             src={
-              thumbnail ||
               video.thumbnail ||
+              thumbnail ||
               "https://via.placeholder.com/168x94"
             }
             alt={video.title}

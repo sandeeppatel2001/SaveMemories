@@ -18,6 +18,7 @@ dotenv.config({ path: "../.env" });
 connectDB();
 const videoIdModel = require("./mongodb/models");
 const os = require("os");
+const { PassThrough } = require("stream");
 
 // Configuration and Environment Variables
 const config = {
@@ -52,12 +53,23 @@ const s3 = new AWS.S3({
 // Setup Logger
 const logger = winston.createLogger({
   level: "info",
-  format: winston.format.json(),
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.json()
+  ),
   transports: [
     new winston.transports.File({ filename: "error.log", level: "error" }),
     new winston.transports.File({ filename: "combined.log" }),
   ],
 });
+
+if (process.env.NODE_ENV !== "production") {
+  logger.add(
+    new winston.transports.Console({
+      format: winston.format.simple(),
+    })
+  );
+}
 
 // Video Processing Queue
 const videoQueue = new Bull("video-processing", {
@@ -114,11 +126,11 @@ if (cluster.isMaster) {
   });
 
   // Helper function to upload to S3
-  async function uploadToS3(buffer, key) {
+  async function uploadToS3(bucket, buffer, key) {
     console.log("inside uploadToS3 function");
     return s3
       .upload({
-        Bucket: config.aws.bucket,
+        Bucket: bucket,
         Key: key,
         Body: buffer,
         ContentEncryption: "AES256",
@@ -130,7 +142,8 @@ if (cluster.isMaster) {
   async function processBufferToHLS(buffer, videoId, quality) {
     const outputDir = path.join(os.tmpdir(), videoId, quality.resolution);
     await fs.mkdir(outputDir, { recursive: true });
-
+    console.log("inside processBufferToHLS function");
+    console.log("outputDir", outputDir);
     return new Promise((resolve, reject) => {
       // Create a temporary input stream from buffer
       const inputStream = require("stream").Readable.from(buffer);
@@ -164,6 +177,7 @@ if (cluster.isMaster) {
             for (const file of files) {
               const fileBuffer = await fs.readFile(path.join(outputDir, file));
               await uploadToS3(
+                process.env.AWS_BUCKET1,
                 fileBuffer,
                 `videos/${videoId}/${quality.resolution}/${file}`
               );
@@ -185,7 +199,7 @@ if (cluster.isMaster) {
   }
 
   // Memory management configuration
-  const MAX_BUFFER_SIZE = 20 * 1024 * 1024; // 100MB threshold
+  const MAX_BUFFER_SIZE = 2 * 1024 * 1024; // 100MB threshold
 
   // Hybrid approach based on file size
   async function processVideo(videoId, buffer, quality) {
@@ -207,7 +221,7 @@ if (cluster.isMaster) {
   // Updated queue processor
   videoQueue.process(async (job) => {
     const { videoId, videoBuffer } = job.data;
-
+    console.log("inside videoQueue.process");
     try {
       await redis.set(`video:${videoId}:status`, "processing");
 
@@ -232,6 +246,69 @@ if (cluster.isMaster) {
   app.get("/checkpid", (req, res) => {
     res.json({ pid: process.pid });
   });
+  async function createThumbnailFromBuffer(thumbnailBuffer, videoId) {
+    return new Promise((resolve, reject) => {
+      console.log("inside createThumbnailFromBuffer function");
+      let outputBuffer = Buffer.alloc(0);
+      const inputStream = new PassThrough();
+
+      ffmpeg()
+        .input(inputStream)
+        .outputOptions([
+          "-ss 00:00:02", // Take screenshot at 1 second
+          "-frames:v 1", // Capture only one frame
+          "-an", // Disable audio processing
+          "-vf scale=480:270:force_original_aspect_ratio=decrease", // Scale with aspect ratio
+          "-q:v 2", // High quality (1-31, lower means better quality)
+        ])
+        .format("image2") // Output format for images
+        .on("error", (err) => {
+          logger.error(
+            `Thumbnail generation error for videoId ${videoId}:`,
+            err
+          );
+          reject(err);
+        })
+        .on("start", (cmd) => {
+          logger.info(`Starting thumbnail generation for videoId ${videoId}`);
+          logger.debug(`FFmpeg command: ${cmd}`);
+        })
+        .stream()
+        .on("data", (chunk) => {
+          outputBuffer = Buffer.concat([outputBuffer, chunk]);
+        })
+        .on("end", async () => {
+          try {
+            if (!outputBuffer.length) {
+              throw new Error("Generated thumbnail is empty");
+            }
+            console.log("outputBuffer", outputBuffer);
+
+            // Upload thumbnail to S3
+            const s3Response = await uploadToS3(
+              process.env.AWS_BUCKET2,
+              outputBuffer,
+              `videos/${videoId}/thumbnail.jpg`
+            );
+
+            const thumbnailUrl = s3Response.Location;
+            logger.info(
+              `Thumbnail uploaded successfully for videoId ${videoId}: ${thumbnailUrl}`
+            );
+            resolve(thumbnailUrl);
+          } catch (error) {
+            logger.error(
+              `Thumbnail processing failed for videoId ${videoId}:`,
+              error
+            );
+            reject(error);
+          }
+        });
+
+      // Write the pre-sliced buffer to the stream
+      inputStream.end(thumbnailBuffer);
+    });
+  }
   // Updated upload endpoint
   app.post("/upload", upload.single("video"), async (req, res) => {
     try {
@@ -241,19 +318,39 @@ if (cluster.isMaster) {
         throw new Error("Invalid file type. Only video files are allowed.");
       }
 
-      logger.info(
-        `Received file: ${JSON.stringify({
-          originalname: req.file.originalname,
-          mimetype: req.file.mimetype,
-          size: req.file.size,
-        })}`
+      const videoId = crypto.randomUUID();
+
+      // Create a smaller buffer for thumbnail generation
+      const THUMBNAIL_BUFFER_SIZE = 5 * 1024 * 1024; // 5MB
+      const thumbnailBuffer = Buffer.from(
+        req.file.buffer.slice(0, THUMBNAIL_BUFFER_SIZE)
       );
 
-      const videoId = crypto.randomUUID();
-      await videoIdModel.create({ videoId });
-      // take a screenshot of the video and save screenshot to s3 bucket and get s3 url for screenshot then save in mongodb with videoId
+      // Run thumbnail generation in background
+      createThumbnailFromBuffer(thumbnailBuffer, videoId)
+        .then(async (thumbnailUrl) => {
+          console.log("Thumbnail generated:", thumbnailUrl);
+          // Update MongoDB with thumbnail URL
+          await videoIdModel.findOneAndUpdate(
+            { videoId },
+            { thumbnailUrl },
+            { new: true }
+          );
+        })
+        .catch((error) => {
+          logger.error(
+            `Thumbnail generation failed for videoId ${videoId}:`,
+            error
+          );
+        });
 
-      console.log("screenshot", screenshot);
+      // Save initial data to MongoDB without thumbnail
+      await videoIdModel.create({
+        videoId,
+        status: "processing",
+      });
+
+      // Process the video immediately without waiting for thumbnail
       if (req.file.buffer.length > MAX_BUFFER_SIZE) {
         console.log("Processing large file");
 
@@ -426,6 +523,7 @@ if (cluster.isMaster) {
             for (const file of files) {
               const fileBuffer = await fs.readFile(path.join(outputDir, file));
               await uploadToS3(
+                process.env.AWS_BUCKET1,
                 fileBuffer,
                 `videos/${videoId}/${quality.resolution}/${file}`
               );
@@ -482,11 +580,11 @@ if (cluster.isMaster) {
       // Check if file exists in S3
       const fileStream = s3
         .getObject({
-          Bucket: config.aws.bucket,
+          Bucket: process.env.AWS_BUCKET1,
           Key: key,
         })
         .createReadStream();
-
+      // console.log("fileStream", fileStream);
       // Set appropriate headers
       res.setHeader(
         "Content-Type",

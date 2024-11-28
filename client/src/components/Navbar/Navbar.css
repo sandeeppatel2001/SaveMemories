@@ -1,0 +1,167 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  background: #0f0f0f;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  z-index: 100;
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.menu-btn {
+  padding: 8px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: white;
+  text-decoration: none;
+  font-size: 20px;
+}
+
+.youtube-icon {
+  color: red;
+  font-size: 28px;
+}
+
+.search-container {
+  flex: 1;
+  max-width: 640px;
+  margin: 0 40px;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  height: 40px;
+}
+
+.search-box input {
+  flex: 1;
+  height: 100%;
+  padding: 0 16px;
+  border: 1px solid #303030;
+  background: #121212;
+  color: white;
+  font-size: 16px;
+  border-radius: 20px 0 0 20px;
+}
+
+.search-btn {
+  height: 100%;
+  padding: 0 20px;
+  background: #303030;
+  border: 1px solid #303030;
+  color: white;
+  cursor: pointer;
+  border-radius: 0 20px 20px 0;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.nav-icon {
+  padding: 8px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.profile-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #303030;
+}
+
+.mobile-navbar {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  background: #0f0f0f;
+  padding: 8px 0;
+  z-index: 100;
+}
+
+.mobile-nav-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  color: white;
+  text-decoration: none;
+  font-size: 10px;
+}
+
+.mobile-nav-item svg {
+  font-size: 20px;
+}
+
+.mobile-search-btn {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0 8px;
+  }
+
+  .logo span {
+    display: none;
+  }
+
+  .search-container {
+    margin: 0 16px;
+  }
+
+  .mobile-navbar {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .mobile-search-btn {
+    display: block;
+  }
+
+  .search-container {
+    display: none;
+  }
+
+  .search-container.show-search {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 8px;
+    background: #0f0f0f;
+    height: 56px;
+  }
+}
