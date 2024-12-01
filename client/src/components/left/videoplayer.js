@@ -134,7 +134,7 @@ const VideoPlayer = ({ videoId }) => {
         </div>
       </div>
 
-      {/* <div className="video-info">
+      <div className="video-info">
         <h1 className="video-title">Video Title</h1>
         <div className="channel-info">
           <img
@@ -157,7 +157,7 @@ const VideoPlayer = ({ videoId }) => {
         </p>
       </div>
 
-      <Comments /> */}
+      <Comments />
     </div>
   );
 };

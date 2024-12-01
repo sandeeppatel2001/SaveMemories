@@ -199,7 +199,7 @@ if (cluster.isMaster) {
   }
 
   // Memory management configuration
-  const MAX_BUFFER_SIZE = 2 * 1024 * 1024; // 100MB threshold
+  const MAX_BUFFER_SIZE = 20 * 1024 * 1024; // 100MB threshold
 
   // Hybrid approach based on file size
   async function processVideo(videoId, buffer, quality) {
@@ -254,20 +254,26 @@ if (cluster.isMaster) {
 
       ffmpeg()
         .input(inputStream)
+        .inputFormat("mp4") // Generic input format
+        .inputOptions(["-ignore_unknown", "-err_detect ignore_err"])
         .outputOptions([
-          "-ss 00:00:02", // Take screenshot at 1 second
-          "-frames:v 1", // Capture only one frame
-          "-an", // Disable audio processing
-          "-vf scale=480:270:force_original_aspect_ratio=decrease", // Scale with aspect ratio
-          "-q:v 2", // High quality (1-31, lower means better quality)
+          "-frames:v 1",
+          "-an",
+          "-vf",
+          "scale=480:270:force_original_aspect_ratio=decrease",
+          "-q:v 2",
+          "-preset",
+          "fast",
+          "-y",
         ])
-        .format("image2") // Output format for images
+        .format("image2")
         .on("error", (err) => {
           logger.error(
-            `Thumbnail generation error for videoId ${videoId}:`,
-            err
+            `Thumbnail generation error for videoId ${videoId}. Attempting fallback...`,
+            err.message
           );
-          reject(err);
+          // Try fallback immediately
+          createThumbnailFallback(thumbnailBuffer, videoId, resolve, reject);
         })
         .on("start", (cmd) => {
           logger.info(`Starting thumbnail generation for videoId ${videoId}`);
@@ -282,9 +288,7 @@ if (cluster.isMaster) {
             if (!outputBuffer.length) {
               throw new Error("Generated thumbnail is empty");
             }
-            console.log("outputBuffer", outputBuffer);
 
-            // Upload thumbnail to S3
             const s3Response = await uploadToS3(
               process.env.AWS_BUCKET2,
               outputBuffer,
@@ -298,51 +302,120 @@ if (cluster.isMaster) {
             resolve(thumbnailUrl);
           } catch (error) {
             logger.error(
-              `Thumbnail processing failed for videoId ${videoId}:`,
-              error
+              `Thumbnail processing failed for videoId ${videoId}: ${error.message}`
             );
-            reject(error);
+            // Try fallback if main process fails
+            createThumbnailFallback(thumbnailBuffer, videoId, resolve, reject);
           }
         });
 
-      // Write the pre-sliced buffer to the stream
       inputStream.end(thumbnailBuffer);
     });
   }
+
+  function createThumbnailFallback(thumbnailBuffer, videoId, resolve, reject) {
+    let outputBuffer = Buffer.alloc(0);
+    const inputStream = new PassThrough();
+
+    ffmpeg()
+      .input(inputStream)
+      .inputFormat("mp4")
+      .outputOptions([
+        "-vframes",
+        "1",
+        "-an",
+        "-vf",
+        "scale=480:270",
+        "-q:v 2",
+        "-preset",
+        "ultrafast", // Try ultrafast preset
+        "-y",
+      ])
+      .format("mjpeg") // Try different output format
+      .on("error", (err) => {
+        logger.error(
+          `Fallback thumbnail generation failed for videoId ${videoId}: ${err.message}`
+        );
+        reject(err);
+      })
+      .stream()
+      .on("data", (chunk) => {
+        outputBuffer = Buffer.concat([outputBuffer, chunk]);
+      })
+      .on("end", async () => {
+        try {
+          if (!outputBuffer.length) {
+            throw new Error("Fallback generated thumbnail is empty");
+          }
+
+          const s3Response = await uploadToS3(
+            process.env.AWS_BUCKET2,
+            outputBuffer,
+            `videos/${videoId}/thumbnail.jpg`
+          );
+
+          const thumbnailUrl = s3Response.Location;
+          logger.info(
+            `Fallback thumbnail uploaded successfully for videoId ${videoId}: ${thumbnailUrl}`
+          );
+          resolve(thumbnailUrl);
+        } catch (error) {
+          logger.error(
+            `Final fallback attempt failed for videoId ${videoId}: ${error.message}`
+          );
+          reject(error);
+        }
+      });
+
+    inputStream.end(thumbnailBuffer);
+  }
+
   // Updated upload endpoint
   app.post("/upload", upload.single("video"), async (req, res) => {
     try {
       console.log("pid", process.pid);
-      // Validate file type
+      // Validate file type and buffer
+      if (!req.file || !req.file.buffer || req.file.buffer.length === 0) {
+        throw new Error("Invalid upload: No file or empty buffer received");
+      }
+
       if (!req.file.mimetype.startsWith("video/")) {
         throw new Error("Invalid file type. Only video files are allowed.");
       }
 
       const videoId = crypto.randomUUID();
 
-      // Create a smaller buffer for thumbnail generation
-      const THUMBNAIL_BUFFER_SIZE = 5 * 1024 * 1024; // 5MB
-      const thumbnailBuffer = Buffer.from(
-        req.file.buffer.slice(0, THUMBNAIL_BUFFER_SIZE)
-      );
+      // Create a buffer for thumbnail generation - increased size
+      const THUMBNAIL_BUFFER_SIZE = 20 * 1024 * 1024; // Increased to 20MB
+      // const thumbnailBuffer = Buffer.from(
+      //   req.file.buffer.slice(
+      //     0,
+      //     Math.min(THUMBNAIL_BUFFER_SIZE, req.file.buffer.length)
+      //   )
+      // );
+      const thumbnailBuffer = req.file.buffer;
 
-      // Run thumbnail generation in background
-      createThumbnailFromBuffer(thumbnailBuffer, videoId)
-        .then(async (thumbnailUrl) => {
-          console.log("Thumbnail generated:", thumbnailUrl);
-          // Update MongoDB with thumbnail URL
-          await videoIdModel.findOneAndUpdate(
-            { videoId },
-            { thumbnailUrl },
-            { new: true }
-          );
-        })
-        .catch((error) => {
-          logger.error(
-            `Thumbnail generation failed for videoId ${videoId}:`,
-            error
-          );
-        });
+      // Run thumbnail generation with better error handling
+      try {
+        const thumbnailUrl = await createThumbnailFromBuffer(
+          thumbnailBuffer,
+          videoId
+        );
+        console.log("Thumbnail generated:", thumbnailUrl);
+
+        // Update MongoDB with thumbnail URL
+        await videoIdModel.findOneAndUpdate(
+          { videoId },
+          { thumbnailUrl },
+          { upsert: true }
+        );
+      } catch (thumbnailError) {
+        logger.error(
+          `Thumbnail generation failed for videoId ${videoId}:`,
+          thumbnailError
+        );
+        // Continue with video processing even if thumbnail fails
+      }
 
       // Save initial data to MongoDB without thumbnail
       await videoIdModel.create({
@@ -599,7 +672,7 @@ if (cluster.isMaster) {
   });
   app.get("/getvideoId", async (req, res) => {
     console.log("getvideoId get request");
-    const videoId = await videoIdModel.find().limit(20);
+    const videoId = await videoIdModel.find().limit(100);
     console.log("videoId", videoId);
     res.send(videoId);
   });
