@@ -7,7 +7,7 @@ import Hls from "hls.js";
 const VideoPlayer = ({ videoId }) => {
   const videoRef = useRef(null);
   const hlsRef = useRef(null);
-  const [quality, setQuality] = useState("360p"); // Default quality
+  const [quality, setQuality] = useState("240p"); // Default quality
   const qualities = ["144p", "240p", "360p", "480p", "720p", "1080p"]; // Match server qualities
 
   useEffect(() => {
@@ -134,7 +134,7 @@ const VideoPlayer = ({ videoId }) => {
         </div>
       </div>
 
-      {/* <div className="video-info">
+      <div className="video-info">
         <h1 className="video-title">Video Title</h1>
         <div className="channel-info">
           <img
@@ -157,7 +157,7 @@ const VideoPlayer = ({ videoId }) => {
         </p>
       </div>
 
-      <Comments /> */}
+      {/* <Comments /> */}
     </div>
   );
 };
