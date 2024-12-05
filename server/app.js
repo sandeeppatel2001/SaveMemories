@@ -11,7 +11,8 @@ const errorHandler = require("./middleware/errorHandler");
 const memoryMonitor = require("./utils/memoryMonitor");
 const connectDB = require("./mongodb/mongoconnection");
 const { videoQueue, redis } = require("./services/queueService");
-
+const authRoutes = require("./routes/authRoutes");
+const updateVideoStatus = require("./routes/updateVideoStatus");
 console.log("Starting server initialization...");
 
 // Add process error handlers
@@ -75,7 +76,8 @@ if (cluster.isMaster) {
     // Routes
     app.use("/api/videos", videoRoutes);
     app.use("/api/status", statusRoutes);
-
+    app.use("/api/updatevisibility", updateVideoStatus);
+    app.use("/api/auth", authRoutes);
     // Error handling
     app.use(errorHandler);
 

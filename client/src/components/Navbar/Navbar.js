@@ -52,9 +52,10 @@ const Navbar = () => {
           <button className="nav-icon">
             <FaBell />
           </button>
-          <button className="nav-icon profile-icon">
+          {/* link profile for router /profile */}
+          <Link to="/profile" className="nav-icon profile-icon">
             <FaUser />
-          </button>
+          </Link>
         </div>
       </nav>
 
@@ -63,9 +64,10 @@ const Navbar = () => {
           <FaHome />
           <span>Home</span>
         </Link>
-        <Link to="/explore" className="mobile-nav-item">
+        {/* edit this and add for private video so change icon also for private video */}
+        <Link to="/myvideos" className="mobile-nav-item">
           <FaCompass />
-          <span>Explore</span>
+          <span>MyVideos</span>
         </Link>
         <Link to="/upload" className="mobile-nav-item">
           <FaUpload />
@@ -75,9 +77,13 @@ const Navbar = () => {
           <FaVideo />
           <span>Library</span>
         </Link>
-        <Link to="/history" className="mobile-nav-item">
+        {/* <Link to="/history" className="mobile-nav-item">
           <FaHistory />
           <span>History</span>
+        </Link> */}
+        <Link to="/profile" className="mobile-nav-item mobile-profile-icon">
+          <FaUser />
+          <span>Profile</span>
         </Link>
       </div>
     </>

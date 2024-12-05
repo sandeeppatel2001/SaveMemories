@@ -3,7 +3,7 @@ const Redis = require("ioredis");
 const config = require("../config");
 const logger = require("../config/logger");
 const { processBufferToHLS } = require("./videoProcessing");
-const videoIdModel = require("../mongodb/models");
+const videoIdModel = require("../mongodb/models/videomodel");
 
 console.log("redis=======", config.redis);
 

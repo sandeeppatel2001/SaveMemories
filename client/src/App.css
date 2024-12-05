@@ -5,6 +5,12 @@
   background: #0f0f0f;
 }
 
+/* Hide navbar and content when on auth pages */
+.auth-page .navbar,
+.auth-page .content {
+  display: none;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -51,6 +57,16 @@
 }
 
 @media (max-width: 768px) {
+  /* Ensure auth pages take full height and hide other content */
+  .App:has(.auth-container) {
+    padding: 0;
+  }
+
+  .App:has(.auth-container) .navbar,
+  .App:has(.auth-container) .content > *:not(.auth-container) {
+    display: none;
+  }
+
   .container {
     grid-template-columns: 1fr;
   }

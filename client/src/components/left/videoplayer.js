@@ -14,14 +14,17 @@ const VideoPlayer = ({ videoId }) => {
     const initializeHLS = () => {
       const video = videoRef.current;
       if (!video) return;
+      // extract the videoid from current location url
+      const videoid = window.location.href.split("=")[1];
 
       // Cleanup previous HLS instance
       if (hlsRef.current) {
         hlsRef.current.destroy();
       }
-
-      const videoSrc = `http://localhost:3001/api/videos/hls/${videoId}/${quality}/playlist.m3u8`;
-
+      // send token as well get the token from local storage and send to backend
+      const token = localStorage.getItem("token");
+      // const videoSrc = `http://localhost:3001/api/videos/hls/${videoId}/${quality}/playlist.m3u8?token=${token}`;
+      const videoSrc = `http://localhost:3001/api/videos/hls/${videoid}/${quality}/playlist.m3u8?token=${token}`;
       if (Hls.isSupported()) {
         const hls = new Hls({
           debug: false,

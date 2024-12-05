@@ -16,7 +16,7 @@ const dotenv = require("dotenv");
 const connectDB = require("./mongodb/mongoconnection");
 dotenv.config({ path: "../.env" });
 connectDB();
-const videoIdModel = require("./mongodb/models");
+const videoIdModel = require("./mongodb/models/videomodel");
 const os = require("os");
 const { PassThrough } = require("stream");
 

@@ -5,9 +5,13 @@ import { useState, useEffect } from "react";
 const RecommendedVideos = ({ setvideoid }) => {
   const [videos, setVideos] = useState([]);
   const [selectedVideo, setSelectedVideo] = useState(null);
-
+  // send token as well
   useEffect(() => {
-    fetch("http://localhost:3001/api/videos/getvideoId")
+    fetch("http://localhost:3001/api/videos/getpublicvideos", {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
       .then((res) => res.json())
       .then((data) => {
         console.log("===============", data);

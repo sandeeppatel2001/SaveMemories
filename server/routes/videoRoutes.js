@@ -4,12 +4,13 @@ const { upload } = require("../middleware/upload");
 const { videoQueue, redis } = require("../services/queueService");
 const { createThumbnailFromBuffer } = require("../services/thumbnailGenerator");
 const { processFileToHLS } = require("../services/videoProcessing");
-const videoIdModel = require("../mongodb/models");
+const videoIdModel = require("../mongodb/models/videomodel");
 const logger = require("../config/logger");
 const { s3 } = require("../services/s3Upload");
 const crypto = require("crypto");
 const path = require("path");
 const fs = require("fs").promises;
+const auth = require("../middleware/auth");
 const videoQualities = [
   { resolution: "144p", height: 144, bitrate: "400k" },
   { resolution: "240p", height: 240, bitrate: "800k" },
@@ -20,8 +21,8 @@ const videoQualities = [
 ];
 
 const MAX_BUFFER_SIZE = 1 * 1024 * 1024; // for redis db
-
-router.post("/upload", upload.single("video"), async (req, res) => {
+// add auth middleware
+router.post("/upload", auth, upload.single("video"), async (req, res) => {
   try {
     if (!req.file || !req.file.buffer || req.file.buffer.length === 0) {
       throw new Error("Invalid upload: No file or empty buffer received");
@@ -30,7 +31,10 @@ router.post("/upload", upload.single("video"), async (req, res) => {
     if (!req.file.mimetype.startsWith("video/")) {
       throw new Error("Invalid file type. Only video files are allowed.");
     }
-
+    // take all the data from req.body
+    const { title, description, visibility } = req.body;
+    // take user id from req.user
+    const userId = req.user._id;
     const videoId = crypto.randomUUID();
     const thumbnailBuffer = req.file.buffer;
 
@@ -39,9 +43,10 @@ router.post("/upload", upload.single("video"), async (req, res) => {
         thumbnailBuffer,
         videoId
       );
+      // save all details in database
       await videoIdModel.findOneAndUpdate(
         { videoId },
-        { thumbnailUrl },
+        { thumbnailUrl, title, description, visibility, userId },
         { upsert: true }
       );
     } catch (thumbnailError) {
@@ -114,7 +119,7 @@ router.post("/upload", upload.single("video"), async (req, res) => {
   }
 });
 
-router.get("/hls/:videoId/:quality/:file", async (req, res) => {
+router.get("/hls/:videoId/:quality/:file", auth, async (req, res) => {
   try {
     const { videoId, quality, file } = req.params;
     const key = `videos/${videoId}/${quality}/${file}`;
@@ -138,14 +143,41 @@ router.get("/hls/:videoId/:quality/:file", async (req, res) => {
   }
 });
 
-router.get("/getvideoId", async (req, res) => {
+router.get("/getpublicvideos", auth, async (req, res) => {
   try {
-    const videoId = await videoIdModel.find().limit(100);
+    // find only public videos
+    const videoId = await videoIdModel
+      .find({ visibility: "public" })
+      .limit(100);
     res.send(videoId);
   } catch (error) {
     logger.error("Failed to fetch videoIds:", error);
     res.status(500).json({ error: "Failed to fetch videoIds" });
   }
 });
-
+router.get("/getuservideos", auth, async (req, res) => {
+  try {
+    console.log("req.user", req.user);
+    // req.user {
+    //   _id: new ObjectId('666666666666666666666666'),
+    //   username: 'test',
+    //   mobile: '1234567890'
+    // }
+    const videoId = await videoIdModel
+      .find({ userId: req.user._id }) // typecast _id to mongoid
+      .limit(100);
+    console.log("videoId=======>", videoId);
+    // saperate public and private videos
+    const publicVideos = videoId.filter(
+      (video) => video.visibility === "public"
+    );
+    const privateVideos = videoId.filter(
+      (video) => video.visibility === "private"
+    );
+    res.send({ user: req.user, publicVideos, privateVideos });
+  } catch (error) {
+    logger.error("Failed to fetch videoIds:", error);
+    res.status(500).json({ error: "Failed to fetch videoIds" });
+  }
+});
 module.exports = router;
