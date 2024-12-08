@@ -2,7 +2,7 @@ import React from "react";
 import "./right.css";
 import thumbnail from "../img/thumb.jpg";
 import { useState, useEffect } from "react";
-const RecommendedVideos = ({ setvideoid }) => {
+const RecommendedVideos = ({ setvideo }) => {
   const [videos, setVideos] = useState([]);
   const [selectedVideo, setSelectedVideo] = useState(null);
   // send token as well
@@ -18,13 +18,14 @@ const RecommendedVideos = ({ setvideoid }) => {
         let videosarray = [];
         data.forEach((videodata) => {
           videosarray.push({
-            id: 1,
-            title: "Sample Video 1",
-            channel: "Channel Name",
+            id: videodata._id,
+            title: videodata.title || "Sample Video 1",
+            channel: videodata.channelName || "Channel Name",
             thumbnail: videodata.thumbnailUrl
               ? `https://108and7.s3.ap-south-1.amazonaws.com/videos/${videodata.videoId}/thumbnail.jpg`
               : thumbnail,
             videoId: videodata.videoId,
+            description: videodata.description,
           });
         });
         setVideos(videosarray);
@@ -76,16 +77,16 @@ const RecommendedVideos = ({ setvideoid }) => {
   //   },
   // ];
   console.log(videos);
-  const handleVideoClick = (videoId) => {
-    console.log("videoId", videoId);
-    setvideoid(videoId);
-    setSelectedVideo(videoId);
+  const handleVideoClick = (video) => {
+    console.log("videoId", video.videoId);
+    setvideo(video);
+    setSelectedVideo(video.videoId);
   };
   return (
     <div className="recommended-videos">
       {videos.map((video, index) => (
         <div
-          onClick={() => handleVideoClick(video.videoId)}
+          onClick={() => handleVideoClick(video)}
           key={video.id + index}
           className={`video-card ${
             selectedVideo === video.videoId ? "selected" : ""

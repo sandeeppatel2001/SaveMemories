@@ -14,7 +14,7 @@ const { videoQueue, redis } = require("./services/queueService");
 const authRoutes = require("./routes/authRoutes");
 const updateVideoStatus = require("./routes/updateVideoStatus");
 console.log("Starting server initialization...");
-
+const path = require("path");
 // Add process error handlers
 process.on("uncaughtException", (error) => {
   console.error("Uncaught Exception:", error);
@@ -78,6 +78,7 @@ if (cluster.isMaster) {
     app.use("/api/status", statusRoutes);
     app.use("/api/updatevisibility", updateVideoStatus);
     app.use("/api/auth", authRoutes);
+    app.use("/", express.static(path.join(__dirname, "../client/build")));
     // Error handling
     app.use(errorHandler);
 

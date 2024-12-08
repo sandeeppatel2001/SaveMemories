@@ -11,9 +11,10 @@ import Home from "./components/Home/Home";
 import Profile from "./components/Profile/Profile";
 
 function App() {
-  const [videoid, setVideoId] = useState("");
-  const setvideoid = (videoId) => {
-    setVideoId(videoId);
+  const [video, setVideo] = useState("");
+  const setvideo = (video) => {
+    console.log("setvideo===============", video);
+    setVideo(video);
   };
 
   const isAuthenticated = () => {
@@ -45,10 +46,10 @@ function App() {
               <PrivateRoute>
                 <div className="container">
                   <div className="left-section">
-                    <VideoPlayer videoId={videoid} />
+                    <VideoPlayer videoDetail={video} />
                   </div>
                   <div className="right-section">
-                    <RecommendedVideos setvideoid={setvideoid} />
+                    <RecommendedVideos setvideo={setvideo} />
                   </div>
                 </div>
               </PrivateRoute>

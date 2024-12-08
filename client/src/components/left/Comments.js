@@ -16,6 +16,8 @@ const Comments = () => {
       setIsMobile(window.innerWidth <= 768);
       if (window.innerWidth > 768) {
         setIsExpanded(true);
+      } else {
+        setIsExpanded(false);
       }
     };
 

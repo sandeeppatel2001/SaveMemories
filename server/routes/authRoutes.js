@@ -55,7 +55,7 @@ router.post("/login", authLimiter, async (req, res) => {
         mobile: user.mobile,
       })
     );
-    console.log("user", user);
+    // console.log("user", user);
     res.json({
       error: false,
       token,

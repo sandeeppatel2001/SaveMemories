@@ -86,10 +86,10 @@ router.post("/upload", auth, upload.single("video"), async (req, res) => {
         await redis.set(`video:${videoId}:status`, "failed");
         throw error;
       } finally {
-        await fs.rm(path.join(__dirname, "../tempvideos", videoId), {
-          recursive: true,
-          force: true,
-        });
+        // await fs.rm(path.join(__dirname, "../tempvideos", videoId), {
+        //   recursive: true,
+        //   force: true,
+        // });
       }
     } else {
       // Process small files using queue
@@ -157,7 +157,7 @@ router.get("/getpublicvideos", auth, async (req, res) => {
 });
 router.get("/getuservideos", auth, async (req, res) => {
   try {
-    console.log("req.user", req.user);
+    // console.log("req.user", req.user);
     // req.user {
     //   _id: new ObjectId('666666666666666666666666'),
     //   username: 'test',
@@ -166,7 +166,7 @@ router.get("/getuservideos", auth, async (req, res) => {
     const videoId = await videoIdModel
       .find({ userId: req.user._id }) // typecast _id to mongoid
       .limit(100);
-    console.log("videoId=======>", videoId);
+    // console.log("videoId=======>", videoId);
     // saperate public and private videos
     const publicVideos = videoId.filter(
       (video) => video.visibility === "public"

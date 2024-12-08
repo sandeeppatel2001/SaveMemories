@@ -5,6 +5,7 @@ import {
   FaCompass,
   FaVideo,
   FaHistory,
+  FaYoutube,
   FaBars,
   FaSearch,
   FaUpload,
@@ -12,7 +13,7 @@ import {
   FaUser,
 } from "react-icons/fa";
 import "./Navbar.css";
-import freshLogo from "./fresh.jpeg";
+import freshLogo from "../img/images.jpeg";
 
 const Navbar = () => {
   const [showSearch, setShowSearch] = useState(false);
@@ -21,9 +22,9 @@ const Navbar = () => {
     <>
       <nav className="navbar">
         <div className="navbar-left">
-          <button className="menu-btn">
+          {/* <button className="menu-btn">
             <FaBars />
-          </button>
+          </button> */}
           <Link to="/" className="logo">
             <img src={freshLogo} alt="Fresh Logo" className="fresh-icon" />
             <span>Golden Memory</span>

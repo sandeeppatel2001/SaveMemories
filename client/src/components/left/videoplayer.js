@@ -4,7 +4,8 @@ import VideoControls from "./VideoControls";
 import Comments from "./Comments";
 import Hls from "hls.js";
 
-const VideoPlayer = ({ videoId }) => {
+const VideoPlayer = ({ videoDetail }) => {
+  console.log("videoDetail===============", videoDetail);
   const videoRef = useRef(null);
   const hlsRef = useRef(null);
   const [quality, setQuality] = useState("240p"); // Default quality
@@ -27,7 +28,7 @@ const VideoPlayer = ({ videoId }) => {
       const token = localStorage.getItem("token");
       // send token in header as well
       // const videoSrc = `http://localhost:3001/api/videos/hls/${videoId}/${quality}/playlist.m3u8?token=${token}`;
-      const videoSrc = `http://localhost:3001/api/videos/hls/${videoid}/${quality}/playlist.m3u8`;
+      const videoSrc = `http://localhost:3001/api/videos/hls/${videoDetail.videoId}/${quality}/playlist.m3u8`;
       // send token in header as well
 
       if (Hls.isSupported()) {
@@ -91,13 +92,15 @@ const VideoPlayer = ({ videoId }) => {
         hlsRef.current.destroy();
       }
     };
-  }, [videoId, quality]);
+  }, [videoDetail, quality]);
 
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
       if (window.innerWidth > 768) {
         setIsDescriptionExpanded(true);
+      } else {
+        setIsDescriptionExpanded(false);
       }
     };
 
@@ -162,7 +165,7 @@ const VideoPlayer = ({ videoId }) => {
       </div>
 
       <div className="video-info">
-        <h1 className="video-title">Video Title</h1>
+        <h1 className="video-title">{videoDetail.title}</h1>
         <div className="channel-info">
           <img
             src="https://via.placeholder.com/40"
@@ -170,8 +173,10 @@ const VideoPlayer = ({ videoId }) => {
             className="channel-avatar"
           />
           <div className="channel-details">
-            <h3 className="channel-name">Channel Name</h3>
-            <p className="subscriber-count">1.2M subscribers</p>
+            <h3 className="channel-name">{videoDetail.channelName}</h3>
+            <p className="subscriber-count">
+              {videoDetail.subscriberCount} subscribers
+            </p>
           </div>
           <button className="subscribe-btn">Subscribe</button>
         </div>
@@ -185,9 +190,8 @@ const VideoPlayer = ({ videoId }) => {
             }`}
           >
             <p className="video-description">
-              This is a long description that will be truncated on mobile
-              devices unless expanded. It can contain multiple paragraphs and
-              details about the video.
+              {videoDetail.description ||
+                "This is a long description that will be truncated on mobile devices unless expanded. It can contain multiple paragraphs and details about the video."}
               {/* Add more description text here */}
             </p>
           </div>

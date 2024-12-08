@@ -57,6 +57,7 @@ const VideoUpload = () => {
         {
           headers: {
             "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
           onUploadProgress: (progressEvent) => {
             const percentCompleted = Math.round(
@@ -66,9 +67,13 @@ const VideoUpload = () => {
           },
         }
       );
-
-      console.log("Upload successful:", response.data);
-      setStep(3);
+      if (response.status === 200) {
+        console.log("Upload successful:", response.data);
+        setStep(3);
+      } else if (response.status === 401) {
+        console.error("Upload failed:", response.data);
+        alert("Upload failed. Please try again.");
+      }
     } catch (error) {
       console.error("Upload failed:", error);
       alert("Upload failed. Please try again.");
