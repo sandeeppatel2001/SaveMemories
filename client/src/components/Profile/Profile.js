@@ -25,24 +25,46 @@ const Profile = () => {
   const handlePublicOrPrivateClick = () => {
     setIsPrivateVideos(!isPrivateVideos);
   };
-  const getuserdetails = async () => {
-    const response = await axios.get(
-      "http://localhost:3001/api/videos/getuservideos"
-    );
-    console.log(response.data);
-    setUser(response.data.user);
-    setPublicVideos([
-      ...response.data.publicVideos,
-      ...response.data.publicVideos,
-    ]);
-    setPrivateVideos([
-      ...response.data.privateVideos,
-      ...response.data.privateVideos,
-    ]);
-  };
+
   useEffect(() => {
+    const getuserdetails = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:3001/api/videos/getuservideos",
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+
+        setUser(response.data.user);
+        setPublicVideos(response.data.publicVideos);
+        setPrivateVideos(response.data.privateVideos);
+      } catch (error) {
+        console.log("Error details:", error);
+
+        // Handle 401 Unauthorized error
+        if (error.response && error.response.status === 401) {
+          // localStorage.removeItem("token"); // Clear invalid token
+          navigate("/login"); // Redirect to login
+          return;
+        }
+
+        // Handle other errors
+        console.error("Error fetching user details:", error);
+      }
+    };
+
+    // Only fetch if we have a token
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
     getuserdetails();
-  }, []);
+  }, [navigate]);
   return (
     <div className="profile-container">
       <div className="profile-header">

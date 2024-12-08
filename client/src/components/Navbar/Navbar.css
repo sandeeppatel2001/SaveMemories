@@ -165,3 +165,27 @@
     height: 56px;
   }
 }
+
+.fresh-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+  object-fit: cover;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .fresh-icon {
+    width: 32px;
+    height: 32px;
+  }
+}

@@ -5,7 +5,6 @@ import {
   FaCompass,
   FaVideo,
   FaHistory,
-  FaYoutube,
   FaBars,
   FaSearch,
   FaUpload,
@@ -13,6 +12,7 @@ import {
   FaUser,
 } from "react-icons/fa";
 import "./Navbar.css";
+import freshLogo from "./fresh.jpeg";
 
 const Navbar = () => {
   const [showSearch, setShowSearch] = useState(false);
@@ -25,8 +25,8 @@ const Navbar = () => {
             <FaBars />
           </button>
           <Link to="/" className="logo">
-            <FaYoutube className="youtube-icon" />
-            <span>YouTube</span>
+            <img src={freshLogo} alt="Fresh Logo" className="fresh-icon" />
+            <span>Golden Memory</span>
           </Link>
         </div>
 
@@ -40,12 +40,12 @@ const Navbar = () => {
         </div>
 
         <div className="navbar-right">
-          <button
+          {/* <button
             className="mobile-search-btn"
             onClick={() => setShowSearch(!showSearch)}
           >
             <FaSearch />
-          </button>
+          </button> */}
           <Link to="/upload" className="nav-icon">
             <FaUpload />
           </Link>
@@ -65,7 +65,7 @@ const Navbar = () => {
           <span>Home</span>
         </Link>
         {/* edit this and add for private video so change icon also for private video */}
-        <Link to="/myvideos" className="mobile-nav-item">
+        <Link to="/profile" className="mobile-nav-item">
           <FaCompass />
           <span>MyVideos</span>
         </Link>

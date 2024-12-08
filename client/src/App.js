@@ -30,19 +30,28 @@ function App() {
       <Navbar />
       <div className="content">
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route
+            path="/"
+            element={
+              <PrivateRoute>
+                <Home />
+              </PrivateRoute>
+            }
+          />
           {/* <Route path="/player" element={<VideoPlayer videoid={videoid} />} /> */}
           <Route
             path="/player"
             element={
-              <div className="container">
-                <div className="left-section">
-                  <VideoPlayer videoId={videoid} />
+              <PrivateRoute>
+                <div className="container">
+                  <div className="left-section">
+                    <VideoPlayer videoId={videoid} />
+                  </div>
+                  <div className="right-section">
+                    <RecommendedVideos setvideoid={setvideoid} />
+                  </div>
                 </div>
-                <div className="right-section">
-                  <RecommendedVideos setvideoid={setvideoid} />
-                </div>
-              </div>
+              </PrivateRoute>
             }
           />
 

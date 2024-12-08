@@ -53,9 +53,9 @@ const VideoControls = () => {
         <button className="control-btn">
           <FaShare /> Share
         </button>
-        <button className="control-btn">
+        {/* <button className="control-btn">
           <FaBookmark /> Save
-        </button>
+        </button> */}
       </div>
     </div>
   );

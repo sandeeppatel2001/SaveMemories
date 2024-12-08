@@ -4,14 +4,15 @@ const logger = require("../config/logger");
 const mongoose = require("mongoose");
 const auth = async (req, res, next) => {
   try {
-    req.user = {
-      _id: new mongoose.Types.ObjectId("666666666666666666666666"), // convert string to MongoDB ObjectId
-      username: "test",
-      mobile: "1234567890",
-    };
-    return next();
+    // req.user = {
+    //   _id: new mongoose.Types.ObjectId("666666666666666666666666"), // convert string to MongoDB ObjectId
+    //   username: "test",
+    //   mobile: "1234567890",
+    // };
+    // return next();
     const token = req.header("Authorization")?.replace("Bearer ", "");
     if (!token) {
+      console.log("No token, authorization denied");
       return res
         .status(401)
         .json({ message: "No token, authorization denied" });
@@ -19,10 +20,12 @@ const auth = async (req, res, next) => {
 
     const userSession = await redis.get(`session:${token}`);
     if (!userSession) {
+      console.log("Session expired or invalid");
       return res.status(401).json({ message: "Session expired or invalid" });
     }
 
     req.user = JSON.parse(userSession);
+    console.log("user", req.user);
     // await redis.expire(`session:${token}`, 24 * 60 * 60); // Extend session duration
     next();
   } catch (error) {

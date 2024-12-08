@@ -9,6 +9,8 @@ const VideoPlayer = ({ videoId }) => {
   const hlsRef = useRef(null);
   const [quality, setQuality] = useState("240p"); // Default quality
   const qualities = ["144p", "240p", "360p", "480p", "720p", "1080p"]; // Match server qualities
+  const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   useEffect(() => {
     const initializeHLS = () => {
@@ -23,14 +25,20 @@ const VideoPlayer = ({ videoId }) => {
       }
       // send token as well get the token from local storage and send to backend
       const token = localStorage.getItem("token");
+      // send token in header as well
       // const videoSrc = `http://localhost:3001/api/videos/hls/${videoId}/${quality}/playlist.m3u8?token=${token}`;
-      const videoSrc = `http://localhost:3001/api/videos/hls/${videoid}/${quality}/playlist.m3u8?token=${token}`;
+      const videoSrc = `http://localhost:3001/api/videos/hls/${videoid}/${quality}/playlist.m3u8`;
+      // send token in header as well
+
       if (Hls.isSupported()) {
         const hls = new Hls({
           debug: false,
           enableWorker: true,
           lowLatencyMode: true,
           backBufferLength: 90,
+          xhrSetup: (xhr) => {
+            xhr.setRequestHeader("Authorization", `Bearer ${token}`);
+          },
         });
 
         hls.loadSource(videoSrc);
@@ -46,15 +54,17 @@ const VideoPlayer = ({ videoId }) => {
           if (data.fatal) {
             switch (data.type) {
               case Hls.ErrorTypes.NETWORK_ERROR:
-                console.log("Network error, trying to recover...");
-                hls.startLoad();
+                console.error("Network error:", data);
+                if (data.response?.code === 401) {
+                  window.location.href = "/login";
+                }
                 break;
               case Hls.ErrorTypes.MEDIA_ERROR:
-                console.log("Media error, trying to recover...");
+                console.error("Media error:", data);
                 hls.recoverMediaError();
                 break;
               default:
-                console.error("Fatal error, destroying HLS instance");
+                console.error("Fatal error:", data);
                 hls.destroy();
                 break;
             }
@@ -82,6 +92,20 @@ const VideoPlayer = ({ videoId }) => {
       }
     };
   }, [videoId, quality]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+      if (window.innerWidth > 768) {
+        setIsDescriptionExpanded(true);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const handleQualityChange = (newQuality) => {
     const video = videoRef.current;
@@ -154,10 +178,28 @@ const VideoPlayer = ({ videoId }) => {
 
         <VideoControls />
 
-        <p className="video-description">
-          Video description goes here. This can include details about the video,
-          upload date, and other relevant information.
-        </p>
+        <div className="description-container">
+          <div
+            className={`description-content ${
+              isDescriptionExpanded ? "expanded" : ""
+            }`}
+          >
+            <p className="video-description">
+              This is a long description that will be truncated on mobile
+              devices unless expanded. It can contain multiple paragraphs and
+              details about the video.
+              {/* Add more description text here */}
+            </p>
+          </div>
+          {isMobile && (
+            <button
+              className="show-more-btn"
+              onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
+            >
+              {isDescriptionExpanded ? "Show less" : "Show more"}
+            </button>
+          )}
+        </div>
       </div>
 
       <Comments />
