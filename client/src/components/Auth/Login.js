@@ -20,7 +20,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:3001/api/auth/login",
+        `http://${process.env.VM_HOST}:3001/api/auth/login`,
         formData
       );
       if (response.data.error) {

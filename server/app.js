@@ -104,7 +104,7 @@ if (cluster.isMaster) {
 
     // Start server with error handling
     const server = app
-      .listen(config.app.port, () => {
+      .listen(config.app.port, config.app.host, () => {
         console.log(`Worker ${process.pid} started on port ${config.app.port}`);
         logger.info(`Worker ${process.pid} started on port ${config.app.port}`);
       })

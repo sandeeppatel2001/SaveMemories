@@ -52,7 +52,7 @@ const VideoUpload = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3001/api/videos/upload",
+        `http://${process.env.VM_HOST}:3001/api/videos/upload`,
         formData,
         {
           headers: {

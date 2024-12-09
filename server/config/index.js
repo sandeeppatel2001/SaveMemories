@@ -18,6 +18,7 @@ module.exports = {
     iv: process.env.ENCRYPTION_IV,
   },
   app: {
+    host: process.env.SERVER_HOST || "localhost",
     port: process.env.PORT || 3001,
   },
   mongo: {

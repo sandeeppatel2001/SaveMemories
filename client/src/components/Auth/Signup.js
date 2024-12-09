@@ -27,7 +27,7 @@ const Signup = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3001/api/auth/signup",
+        `http://${process.env.VM_HOST}:3001/api/auth/signup`,
         formData
       );
       console.log(response);

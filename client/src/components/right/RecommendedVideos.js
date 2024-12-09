@@ -7,7 +7,7 @@ const RecommendedVideos = ({ setvideo }) => {
   const [selectedVideo, setSelectedVideo] = useState(null);
   // send token as well
   useEffect(() => {
-    fetch("http://localhost:3001/api/videos/getpublicvideos", {
+    fetch(`http://${process.env.VM_HOST}:3001/api/videos/getpublicvideos`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },

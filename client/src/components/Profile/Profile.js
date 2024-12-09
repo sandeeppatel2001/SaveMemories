@@ -30,7 +30,7 @@ const Profile = () => {
     const getuserdetails = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3001/api/videos/getuservideos",
+          `http://${process.env.VM_HOST}:3001/api/videos/getuservideos`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
