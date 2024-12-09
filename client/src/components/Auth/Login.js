@@ -19,10 +19,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        `http://${process.env.VM_HOST}:3001/api/auth/login`,
-        formData
-      );
+      const response = await axios.post(`/api/auth/login`, formData);
       if (response.data.error) {
         setError(response.data.message);
         window.alert(response.data.message);

@@ -28,7 +28,7 @@ const VideoPlayer = ({ videoDetail }) => {
       const token = localStorage.getItem("token");
       // send token in header as well
       // const videoSrc = `http://localhost:3001/api/videos/hls/${videoId}/${quality}/playlist.m3u8?token=${token}`;
-      const videoSrc = `http://${process.env.VM_HOST}:3001/api/videos/hls/${videoDetail.videoId}/${quality}/playlist.m3u8`;
+      const videoSrc = `/api/videos/hls/${videoDetail.videoId}/${quality}/playlist.m3u8`;
       // send token in header as well
 
       if (Hls.isSupported()) {

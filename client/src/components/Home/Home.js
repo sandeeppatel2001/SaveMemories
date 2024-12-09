@@ -8,7 +8,7 @@ const Home = () => {
 
   useEffect(() => {
     // Fetch public videos
-    fetch(`http://${process.env.VM_HOST}:3001/api/videos/getpublicvideos`, {
+    fetch(`/api/videos/getpublicvideos`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
