@@ -35,7 +35,7 @@ function App() {
             path="/"
             element={
               <PrivateRoute>
-                <Home />
+                <Home setvideo={setvideo} />
               </PrivateRoute>
             }
           />
@@ -60,7 +60,7 @@ function App() {
             path="/profile"
             element={
               <PrivateRoute>
-                <Profile />
+                <Profile setvideo={setvideo} />
               </PrivateRoute>
             }
           />

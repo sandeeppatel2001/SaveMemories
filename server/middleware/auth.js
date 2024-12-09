@@ -15,13 +15,15 @@ const auth = async (req, res, next) => {
       console.log("No token, authorization denied");
       return res
         .status(401)
-        .json({ message: "No token, authorization denied" });
+        .json({ error: true, message: "No token, authorization denied" });
     }
 
     const userSession = await redis.get(`session:${token}`);
     if (!userSession) {
       console.log("Session expired or invalid");
-      return res.status(401).json({ message: "Session expired or invalid" });
+      return res
+        .status(401)
+        .json({ error: true, message: "Session expired or invalid" });
     }
 
     req.user = JSON.parse(userSession);
@@ -30,7 +32,7 @@ const auth = async (req, res, next) => {
     next();
   } catch (error) {
     logger.error("Auth middleware error:", error);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ error: true, message: "Server error" });
   }
 };
 

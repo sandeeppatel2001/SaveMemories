@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import "./Profile.css";
 import styles from "../Home/Home.module.css";
 import axios from "axios";
-const Profile = () => {
+import VideoCard from "./videoCard";
+const Profile = ({ setvideo }) => {
   const [user, setUser] = useState({
     username: "User",
     mobile: "0000000000",
@@ -15,8 +16,9 @@ const Profile = () => {
   const [isPrivateVideos, setIsPrivateVideos] = useState(false);
   const navigate = useNavigate();
 
-  const handleVideoClick = (videoId) => {
-    navigate(`/player?v=${videoId}`);
+  const handleVideoClick = (video) => {
+    setvideo(video);
+    navigate(`/player?v=${video.videoId}`);
   };
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -29,15 +31,12 @@ const Profile = () => {
   useEffect(() => {
     const getuserdetails = async () => {
       try {
-        const response = await axios.get(
-          `http://${process.env.VM_HOST}:3001/api/videos/getuservideos`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
-
+        const response = await axios.get(`/api/videos/getuservideos`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+        console.log("userdetails", response.data);
         setUser(response.data.user);
         setPublicVideos(response.data.publicVideos);
         setPrivateVideos(response.data.privateVideos);
@@ -107,52 +106,20 @@ const Profile = () => {
           <div className={styles.videoGrid}>
             {isPrivateVideos
               ? privateVideos.map((video, index) => (
-                  <div
-                    key={video.videoId + index + Math.random()}
-                    className={styles.videoCard}
-                    onClick={() => handleVideoClick(video.videoId)}
-                  >
-                    <img
-                      src={
-                        video.thumbnailUrl ||
-                        "https://via.placeholder.com/280x157"
-                      }
-                      alt={video.title}
-                      className={styles.thumbnail}
-                    />
-                    <div className={styles.videoInfo}>
-                      <h3>{video.title}</h3>
-                      <p className={styles.channelName}>{video.username}</p>
-                      <p className={styles.videoStats}>
-                        {video.views} views •{" "}
-                        {new Date(video.createdAt).toLocaleDateString()}
-                      </p>
-                    </div>
-                  </div>
+                  <VideoCard
+                    video={video}
+                    index={index}
+                    handleVideoClick={handleVideoClick}
+                    privacy="private"
+                  />
                 ))
               : publicVideos.map((video, index) => (
-                  <div
-                    key={video.videoId + index + Math.random()}
-                    className={styles.videoCard}
-                    onClick={() => handleVideoClick(video.videoId)}
-                  >
-                    <img
-                      src={
-                        video.thumbnailUrl ||
-                        "https://via.placeholder.com/280x157"
-                      }
-                      alt={video.title}
-                      className={styles.thumbnail}
-                    />
-                    <div className={styles.videoInfo}>
-                      <h3>{video.title}</h3>
-                      <p className={styles.channelName}>{video.username}</p>
-                      <p className={styles.videoStats}>
-                        {video.views} views •{" "}
-                        {new Date(video.createdAt).toLocaleDateString()}
-                      </p>
-                    </div>
-                  </div>
+                  <VideoCard
+                    video={video}
+                    index={index}
+                    handleVideoClick={handleVideoClick}
+                    privacy="public"
+                  />
                 ))}
           </div>
         </div>

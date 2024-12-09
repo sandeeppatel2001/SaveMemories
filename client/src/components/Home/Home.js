@@ -2,26 +2,34 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Home.module.css";
 
-const Home = () => {
+const Home = ({ setvideo }) => {
   const [videos, setVideos] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log("Fetching videos");
+    console.log(localStorage.getItem("token"));
     // Fetch public videos
-    fetch(`/api/videos/getpublicvideos`, {
+    fetch(`/api/videos/getpublicvideos?timestamp=${Date.now()}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     })
       .then((res) => res.json())
       .then((data) => {
-        setVideos(data);
+        console.log("data================", data);
+        if (data.error) {
+          navigate("/login");
+        } else {
+          setVideos(data);
+        }
       })
       .catch((error) => console.error("Error fetching videos:", error));
   }, []);
 
-  const handleVideoClick = (videoId) => {
-    navigate(`/player?v=${videoId}`);
+  const handleVideoClick = (video) => {
+    setvideo(video);
+    navigate(`/player?v=${video.videoId}`);
   };
 
   return (
@@ -31,7 +39,7 @@ const Home = () => {
           <div
             key={video.videoId}
             className={styles.videoCard}
-            onClick={() => handleVideoClick(video.videoId)}
+            onClick={() => handleVideoClick(video)}
           >
             <img
               src={video.thumbnailUrl || "https://via.placeholder.com/280x157"}

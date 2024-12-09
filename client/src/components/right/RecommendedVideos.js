@@ -2,7 +2,7 @@ import React from "react";
 import "./right.css";
 import thumbnail from "../img/thumb.jpg";
 import { useState, useEffect } from "react";
-const RecommendedVideos = ({ setvideo }) => {
+const RecommendedVideos = ({ setvideo, arg }) => {
   const [videos, setVideos] = useState([]);
   const [selectedVideo, setSelectedVideo] = useState(null);
   // send token as well
